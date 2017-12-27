@@ -1,6 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
-
 #define WIDTH 12
 #define HEIGHT 18
 
@@ -17,6 +14,10 @@ typedef struct unit {
     struct unit *next; // next unit on list    
 } Unit;
 
+typedef Unit* uList; // a type for the list
+
 struct world {
-    
-}
+    Unit *board[WIDTH][HEIGHT]; // board of 12 x 18 squares
+    int turn; // nb of turn
+    uList red, blue; // units list for both players
+} World;
