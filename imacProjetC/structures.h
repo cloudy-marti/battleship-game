@@ -1,9 +1,6 @@
 #define WIDTH 12
 #define HEIGHT 18
 
-#define WIDTH 12
-#define HEIGHT 18
-
 #define RED 'R' // player 1
 #define BLUE 'B' // player 2
 
