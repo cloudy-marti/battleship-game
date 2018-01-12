@@ -1,0 +1,19 @@
+
+*** These modified files were found in JOE when it aborted on Fri Jan 12 09:59:54 2018
+*** JOE was aborted because the terminal closed
+
+*** Fichier '(Sans nom)'
+/media/emarti/Hyrule/UE1/imacProjet_C/.git/MERGE_MSG
+
+*** Fichier '/media/emarti/Hyrule/UE1/imacProjet_C/.git/MERGE_MSG'
+Merge branch 'master' of https://github.com/hyliancloud/imacProjet_C
+
+# Veuillez entrer un message de validation pour expliquer en quoi cette fusion est
+# nécessaire, surtout si cela fusionne une branche amont mise à jour dans une branche de sujet.
+#
+# Les lignes commençant par '#' seront ignorées, et un message vide
+# abandonne la validation.
+
+*** Fichier '* Startup Log *'
+Traitement de '/etc/joe/editorrc'...Traitement de '/etc/joe/ftyperc'...Finished processing /etc/joe/ftyperc
+Finished processing /etc/joe/editorrc
