@@ -46,47 +46,32 @@ int checkInput(char* input){
 
 void unitMove(Unit unit){
 
-    //quand est-ce qu'on appelle getInput ??
-    // pas ce switch case -> mes entrees sont forcement valides
-    //switch case quand meme
-    // w -> vers 0 donc posY--
+	int i;
+	int translationX = 0;
+	int translationY = 0;
 
+	char* player = getInput();
 
-    //switch -> https://www.tutorialspoint.com/cprogramming/switch_statement_in_c.htm
-    //sinon if / if else /if else / etc ?
-    switch(player){
-        case("w" || "W") :
-            unit->posY++;
-            break;
-        case("a" || "A") :
-            unit->posX--;
-            break;
-        case("s" || "S"):
-            unit->posY--;
-            break;
-        case("d" || "D") :
-            unit->posX++;
-            break;
-        case("wa" || "Wa" || "wA" || "WA" || "aw" || "Aw" || "aW" || "AW") :
-            unit->posX--;
-            unit->posY++;
-            break;
-        case(wd || Wd || wD || WD || dw || Dw || dW || DW) :
-            unit->posX++;
-            unit->posY++;
-            break;
-        case(sa || Sa || sA || SA || as || As || aS || AS) :
-            unit->posX--;
-            unit->posY--;
-            break;
-        case(sd || Sd || sD || SD || ds || Ds || dS || DS) :
-            unit->posX++;
-            unit->posY--;
-            break;
-        default :
-            printf("wtf"); // je veux revenir au scanf sans devoir le retaper
-    }
+	for(i = 0; player[i] != '\0'; i++){
+		switch(player){
+			case("w") :
+				unit->posY--;
+				break;
+			case("s") :
+				unit->posY++;
+				break;
+			case("a"):
+				unit->posX--;
+				break;
+			case("d"):
+				unit->posX++;
+			default :
+				break;
+		}
+	}
 
+	// on peut enlever le break du case D parce que dans default il n'y a pas d'instructions.
+	// le switch est comme une combinaison de for et de if. Le break sert à sortir du switch lorsque la condition a été faite 
 }
 
 int main(){
