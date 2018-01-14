@@ -127,7 +127,7 @@ void unitAttack(Unit* unit){
 
 	int i;
 	int attackX = 0;
-	int attackY = 0;
+	int attackY = 0; 
 	int posX = unit->posX;
 	int posY = unit->posY;
 
