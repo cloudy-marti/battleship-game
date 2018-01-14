@@ -76,7 +76,7 @@ void unitMove(Unit unit){
 	}
 
 
-	// Condition ternaire : (condition) ? code a executer si vrai, genre si : code a executer si faux, genre else
+	// Condition ternaire : (condition) ? code a executer si vrai, genre "si" : code a executer si faux, genre "else"
 	// on peut enlever le break du case D parce que dans default il n'y a pas d'instructions.
 	// le switch est comme une combinaison de for et de if. Le break sert à sortir du switch lorsque la condition a été faite
 
