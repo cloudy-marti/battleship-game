@@ -14,6 +14,7 @@ char* directionInput(){
 	// sizeof est lui-même une fonction, voire plutôt un utilitaire, presque une fonction, qui va retourner une valeur qu'il aura calculé à partir des paramètres entrés
 	// malloc va renvoyer un void pointeur. Du coup, il va falloir faire un "cast" pour changer le void au type recherché (forcément un pointeur)
 	// dans ce cas le cast est le (*char) qu'on a rajouté devant malloc
+	// parce qu'on fait une égalité entre char* player et le malloc qui doit être donc un char* aussi
 
     while(checkInput(player) == -1){
     	printf("try again\n");
@@ -108,11 +109,37 @@ void unitMove(Unit* unit){
 		}
 	}
 
-
 	// Condition ternaire : (condition) ? code a executer si vrai, genre "si" : code a executer si faux, genre "else"
 	// on peut enlever le break du case D parce que dans default il n'y a pas d'instructions.
 	// le switch est comme une combinaison de for et de if. Le break sert à sortir du switch lorsque la condition a été faite
 
+	Unit* tmpUnit = _world->board[posX+translationX][posY+translationY];
+
+	// j'ai récupéré la case du tableau où le joueur veut aller
+	// je la teste ci-dessous, car le joueur va pouvoir se déplacer que si la case est vide
+
+	if(tmpUnit == NULL){
+
+		tmpUnit = unit;
+		unit = NULL;
+		// Alors, tmpUnit va prendre l'adresse pour Unit (dont la mémoire est allouée), ce qui va simuler le fait que Unit va se déplacer dans cette case du tableau
+		// unit va donc être NULL, sinon deux cases pointeraient sur le même Unit
+		// Le compilateur va rien dire, mais il y aura une erreur de comportement : ce n'est pas demandé
+
+		// en fait le tableau est constitué d'adresses sur unité
+		// Lorsqu'il n'y a pas d'unité, la case pointe sur NULL
+
+		// une autre façon de faire :
+
+		// Unit* swapUnit = tmpUnit; // je sauvegarde la valeur de tmpUnit dans swapUnit
+		// tmpUnit = unit; // j'attribue à tmpUnit la valeur de unit
+		// unit = swapUnit;
+		// // SER : Sauvegarde - Ecrase - Restaure
+		// // pour faire un swap il faut penser à ça
+		// // c'est cool mais ça a pu s'améliorer
+	}
+
+	return;
 }
 
 void unitAttack(Unit* unit){
@@ -126,10 +153,14 @@ void unitAttack(Unit* unit){
 		// =optimisation wesh
 
 	int i;
+
 	int attackX = 0;
-	int attackY = 0; 
+	int attackY = 0;
+
 	int posX = unit->posX;
 	int posY = unit->posY;
+
+	char type = unit->type;
 
 	char* player = directionInput();
 
@@ -152,9 +183,20 @@ void unitAttack(Unit* unit){
 	}
 	// on a enregistré la position du personnage et l'endroit où il veut attaquer
 
-	Unit* aliveUnit = _world->board[posX+attackX][posY+attackY];
+	Unit* enemyUnit = _world->board[posX+attackX][posY+attackY];
 	// unit passée en paramètre est l'unité qui va attaquer, et aliveUnit est l'unitée qui va prendre
-	if(aliveUnit->type == S)
+	char enemyType = enemyUnit->type;
+
+	if(unit->player == enemyUnit->player) return;
+	// Ici on dit que si l'unité attaquée est de la même couleur (donc même équipe), on sort de la fonction attackUnit
+
+	if(type == 'w' || enemyType == 's') deadUnit(enemyUnit);
+	else return;
+	// si je suis warrior OU mon enemi est un serf, l'enemi va mourrir
+	// dans l'autre cas (serf vs warrior), je part de la fonction unitAttack
+}
+
+void deadUnit(Unit* unit){
 
 }
 

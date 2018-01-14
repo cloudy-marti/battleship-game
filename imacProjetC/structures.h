@@ -14,10 +14,10 @@ typedef struct unit {
     struct unit* next; // next unit on list    
 } Unit;
 
-typedef Unit* uList; // a type for the list
+typedef Unit* unitList; // a type for the list
 
 typedef struct world {
-    Unit *board[WIDTH][HEIGHT]; // board of 12 x 18 squares
+    Unit* board[WIDTH][HEIGHT]; // board of 12 x 18 squares
     int turn; // nb of turn
     uList red, blue; // units list for both players
 } World;
