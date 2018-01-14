@@ -24,3 +24,6 @@ typedef struct world {
 
 typedef World* pWorld;
 /* je donne un surnom à World* */
+
+World* _world = NULL;
+//création d'une variable statique qui va pouvoir être rappelée dans toutes les fonctions créées
