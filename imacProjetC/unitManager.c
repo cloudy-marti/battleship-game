@@ -46,3 +46,5 @@ void placeUnit(Unit* unit){
 
 	unit = _world->board[placeUnitInputX()][placeUnitInputY()];
 }
+
+void unitChoiceInput(){}

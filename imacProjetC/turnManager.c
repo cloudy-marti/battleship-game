@@ -4,15 +4,13 @@
 #include "structures.h"
 
 void firstTurn(){
-
 }
 
 void onPlayerTurnUnitTurn(){
-
 }
 
 void nextPlayer(){
 }
 
-void endGame(){ //?¿ ou c'est exit game dans game.c ?
+void endOfGame(){ //?¿ ou c'est exit game dans game.c ?
 }

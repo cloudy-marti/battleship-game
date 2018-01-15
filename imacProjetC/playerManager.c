@@ -5,8 +5,9 @@
 
 char* directionInput(){
 
-    const int taille = 3;    
-	char* player = (char*)malloc(sizeof(char)*taille); // = malloc(3)
+    const int taille = 3;
+	char* playerInput = (char*)malloc(sizeof(char)*taille); // = malloc(3)
+	playerInput = "  \0"; // = {' ', ' ', '\0'};
 
 	// malloc sert à initialiser un pointeur
 
@@ -16,24 +17,26 @@ char* directionInput(){
 	// dans ce cas le cast est le (*char) qu'on a rajouté devant malloc
 	// parce qu'on fait une égalité entre char* player et le malloc qui doit être donc un char* aussi
 
-    while(checkInput(player) == -1){
+    while(checkInput(playerInput) == -1){
     	printf("try again\n");
-        scanf("%s", player);
-        player[2] = '\0';
+        scanf("%s", playerInput);
+        playerInput[2] = '\0';
     }
 
-    return player;
+    free(playerInput);
+
+    return playerInput;
 }
 
 int attackInput(){
 
 	const int taille = 2;
-	char* player = (char*)malloc(sizeof(char)*taille);
+	char* playerAttackInput = (char*)malloc(sizeof(char)*taille);
 
-	scanf("%s", player);
+	scanf("%s", playerAttackInput);
 	player[1] = '\0';
 
-	return -!(*player == " "); // true = 0 || false = -1
+	return -!(*playerAttackInput == " "); // true = 0 || false = -1
 
 	// Déréférencer un pointeur veut dire aller là où le pointeur pointe, à l'occurence la valeur pointée
 	
@@ -45,7 +48,7 @@ int attackInput(){
 	// Donc, lorsque *player est un espace, on return 0.
 	// Si *player n'est pas un espace, on return -1.
 
-	free(*player); // je crois
+	free(playerAttackInput); // je crois
 }
 
 int checkInput(char* input){
@@ -203,7 +206,10 @@ void unitAttack(Unit* unit){
 }
 
 void deadUnit(Unit* unit){
-	// !!! unitAttack va appeler cette fonction
+
+	free(unit);
+	// on a fait malloc sur l'unité quelque part, du coup on libère la mémoire
+
 	unit = NULL;
 	// On va appeler deadUnit(Unit* unit) lorsque la condition de succès d'attaque c'est confirmée
 	// Unit* unit passé en paramètre va être l'unité attaquée
