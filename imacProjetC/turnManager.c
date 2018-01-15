@@ -14,5 +14,5 @@ void onPlayerTurnUnitTurn(){
 void nextPlayer(){
 }
 
-void endGame(){ //?¿ ou c'est exit game dans game.c ? 
+void endGame(){ //?¿ ou c'est exit game dans game.c ?
 }
