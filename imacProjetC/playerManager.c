@@ -44,6 +44,8 @@ int attackInput(){
 	// On ajoute - devant, pour avoir -1 au lieu de 1.
 	// Donc, lorsque *player est un espace, on return 0.
 	// Si *player n'est pas un espace, on return -1.
+
+	free(*player); // je crois
 }
 
 int checkInput(char* input){
@@ -116,7 +118,7 @@ void unitMove(Unit* unit){
 	Unit* tmpUnit = _world->board[posX+translationX][posY+translationY];
 
 	// j'ai récupéré la case du tableau où le joueur veut aller
-	// je la teste ci-dessous, car le joueur va pouvoir se déplacer que si la case est vide
+	// je la teste ci-dessous, car le joueur va pouvoir se déplacer ssi la case est vide
 
 	if(tmpUnit == NULL){
 
@@ -124,7 +126,8 @@ void unitMove(Unit* unit){
 		unit = NULL;
 		// Alors, tmpUnit va prendre l'adresse pour Unit (dont la mémoire est allouée), ce qui va simuler le fait que Unit va se déplacer dans cette case du tableau
 		// unit va donc être NULL, sinon deux cases pointeraient sur le même Unit
-		// Le compilateur va rien dire, mais il y aura une erreur de comportement : ce n'est pas demandé
+		// Le compilateur n'aurait rien dit, mais il y aurait une erreur de comportement : ce n'est pas ce qui est demandé
+		// erreur de comportement : lorsque le joueur demanderais à ce déplacer, la même Unit se "doublerait" dans la case demandée
 
 		// en fait le tableau est constitué d'adresses sur unité
 		// Lorsqu'il n'y a pas d'unité, la case pointe sur NULL
@@ -134,9 +137,11 @@ void unitMove(Unit* unit){
 		// Unit* swapUnit = tmpUnit; // je sauvegarde la valeur de tmpUnit dans swapUnit
 		// tmpUnit = unit; // j'attribue à tmpUnit la valeur de unit
 		// unit = swapUnit;
-		// // SER : Sauvegarde - Ecrase - Restaure
+
+		// // SER : Sauvegarder - Ecraser - Restaurer
 		// // pour faire un swap il faut penser à ça
 		// // c'est cool mais ça a pu s'améliorer
+		// // tout simplement parce qu'on avait pas besoin de sauvegarder la valeur de unit 
 	}
 
 	return;
@@ -146,10 +151,10 @@ void unitAttack(Unit* unit){
 
 	if(_world == NULL) return;
 		// Comme il s'agit d'une fonction void, ce return va forcer la sortie de cette fonction
-		// Parce que _world est NULL pour une quelconque raison
-		// ceci va éviter les SEGMENTATION FAULT
-		// on a exclue le cas où on n'a pas de _world
-		// c'est la première instruction de la fonction, parce que, en cas de manque de _world, ça évitera de créer toutes les variables etc du dessous
+		// si _world est NULL pour une quelconque raison.
+		// Ceci va éviter les SEGMENTATION FAULT
+		// on a donc exclu le cas où on n'a pas de _world
+		// c'est la première instruction de la fonction, parce que, en cas de manque de _world, ça évitera de créer toutes les variables et instructions du dessous
 		// =optimisation wesh
 
 	int i;
@@ -184,7 +189,7 @@ void unitAttack(Unit* unit){
 	// on a enregistré la position du personnage et l'endroit où il veut attaquer
 
 	Unit* enemyUnit = _world->board[posX+attackX][posY+attackY];
-	// unit passée en paramètre est l'unité qui va attaquer, et aliveUnit est l'unitée qui va prendre
+	// unit passée en paramètre est l'unité qui va attaquer, et enemyUnit est l'unitée qui va prendre
 	char enemyType = enemyUnit->type;
 
 	if(unit->player == enemyUnit->player) return;
@@ -194,10 +199,17 @@ void unitAttack(Unit* unit){
 	else return;
 	// si je suis warrior OU mon enemi est un serf, l'enemi va mourrir
 	// dans l'autre cas (serf vs warrior), je part de la fonction unitAttack
+	// car le joueur a tenté d'attaquer une unité plus forte, donc a échoué
 }
 
 void deadUnit(Unit* unit){
-
+	// !!! unitAttack va appeler cette fonction
+	unit = NULL;
+	// On va appeler deadUnit(Unit* unit) lorsque la condition de succès d'attaque c'est confirmée
+	// Unit* unit passé en paramètre va être l'unité attaquée
+	// du coup on va convertir cette unité en pointeur sur NULL pour dire qu'elle pointera plus sur une unité
+	// donc la case du tableau va afficher du vide
+	// car dans board.c un pointeur sur NULL de type Unit affiche la case vide (lignes 16-21)
 }
 
 int main(){

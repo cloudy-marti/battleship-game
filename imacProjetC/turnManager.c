@@ -3,14 +3,16 @@
 #include <string.h>
 #include "structures.h"
 
+void firstTurn(){
 
+}
 
-int main(){
+void onPlayerTurnUnitTurn(){
 
-	_world = (World*)malloc(sizeof(World));
-	printf("move with WASD and press enter ...\n\n if you want to attack, press spacebar and enter");
-	
-	printf("Votre choix : %s\n", directionInput());
+}
 
-	displayBoard(world);
+void nextPlayer(){
+}
+
+void endGame(){ //?¿ ou c'est exit game dans game.c ?
 }

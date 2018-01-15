@@ -14,7 +14,7 @@ typedef struct unit {
     struct unit* next; // next unit on list    
 } Unit;
 
-typedef Unit* unitList; // a type for the list
+typedef Unit* p_List; // a type for the list
 
 typedef struct world {
     Unit* board[WIDTH][HEIGHT]; // board of 12 x 18 squares
@@ -22,7 +22,7 @@ typedef struct world {
     uList red, blue; // units list for both players
 } World;
 
-typedef World* pWorld;
+typedef World* p_World;
 /* je donne un surnom à World* */
 
 World* _world = NULL;
