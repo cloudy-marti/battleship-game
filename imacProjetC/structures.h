@@ -20,8 +20,8 @@ typedef Unit* unitList;
 typedef struct world {
     Unit* board[WIDTH][HEIGHT]; // board of 12 x 18 squares
     int turn; // nb of turn
-    unitList red;
-    unitList blue; // units list for both players
+    unitList redList;
+    unitList blueList; // units list for both players
 } World;
 
 typedef World* p_World;

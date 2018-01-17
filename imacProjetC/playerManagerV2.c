@@ -3,6 +3,22 @@
 #include <string.h>
 #include "structures.h"
 
+char* directionInput();
+int checkInput(char* input);
+void unitMove(Unit* unit);
+void unitAttack(Unit* unit);
+void deadUnit(Unit* unit);
+
+/*int main(){
+
+	_world = (World*)malloc(sizeof(World));
+	printf("move with WASD and press enter ...\n\n if you want to attack, press spacebar and enter");
+	
+	printf("Votre choix : %s\n", directionInput());
+
+	displayBoard(_world);
+}
+*/
 char* directionInput(){
 
     const int taille = 3;
@@ -56,24 +72,28 @@ int checkInput(char* input){
     int i;
 
     for(i = 0; input[i] != '\0'; i++){
-        if(!(input[i] = 'w' 
-            || input[i] = 'a' 
-            || input[i] = 's' 
-            || input[i] = 'd')){
+        if(!(input[i] == 'w' // on avait mit = tout seul, c'est pas une comparaison du coup ?
+            || input[i] == 'a' 
+            || input[i] == 's' 
+            || input[i] == 'd')){
             return -1;
             // input[i] = 'qqe chose' sont mes conditions sans erreurs, si je les met entre !() j'inverse la condition, donc je pourrait envoyer mon code d'erreur -1 à partir de là
         }
     }
 
-    if(strcmp(*input, "ws") == 0 // ça c'est égal à : !strcmp(*input, "ws")
-        || strcmp(*input, "sw") == 0
-        || strcmp(*input, "ad") == 0 
-        || strcmp(*input, "da") == 0){
-        return -1
+    if(strcmp(input, "ws") == 0 // ça c'est égal à : !strcmp(*input, "ws")
+        || strcmp(input, "sw") == 0
+        || strcmp(input, "ad") == 0 
+        || strcmp(input, "da") == 0){
+        return -1;
     }
 
+    // à la base c'était strcmp(*input, "da"), j'ai enlevé l'étoile
+    // parce que la fonction c'est "int strcmp(const char* s1, const char* s2)"
+    // et input est déjà de type char*
+
 	if (input[0] == input[1]) {
-		return -1
+		return -1;
 	}
 	
     return 0; // si ya pas de cas d'erreurs, je retourne 0
@@ -88,7 +108,7 @@ int checkInput(char* input){
 	}
 }*/
 
-void unitMove(Unit* unit){
+void unitMove(Unit* unit){ // unitManager
 
 	int i;
 	int translationX = 0;
@@ -118,7 +138,11 @@ void unitMove(Unit* unit){
 	// on peut enlever le break du case D parce que dans default il n'y a pas d'instructions.
 	// le switch est comme une combinaison de for et de if. Le break sert à sortir du switch lorsque la condition a été faite
 
-	Unit* tmpUnit = _world->board[posX+translationX][posY+translationY];
+	// Unit* tmpUnit = _world->board[posX+translationX][posY+translationY];
+	// le compilateur n'est pas content
+	Unit* tmpUnit = _world->board[unit->posX+translationX][unit->posY+translationY];
+	// posX ou posY seuls ne sont pas déclarés ailleurs, donc j'ai changé par unit->posX/Y
+	// car unit est mon pointeur sur mon Unit originale à la position posX/Y initiales
 
 	// j'ai récupéré la case du tableau où le joueur veut aller
 	// je la teste ci-dessous, car le joueur va pouvoir se déplacer ssi la case est vide
@@ -150,7 +174,7 @@ void unitMove(Unit* unit){
 	return;
 }
 
-void unitAttack(Unit* unit){
+void unitAttack(Unit* unit){ // unitManager ? 
 
 	if(_world == NULL) return;
 		// Comme il s'agit d'une fonction void, ce return va forcer la sortie de cette fonction
@@ -205,7 +229,7 @@ void unitAttack(Unit* unit){
 	// car le joueur a tenté d'attaquer une unité plus forte, donc a échoué
 }
 
-void deadUnit(Unit* unit){
+void deadUnit(Unit* unit){ // unitManager
 
 	free(unit);
 	// on a fait malloc sur l'unité quelque part, du coup on libère la mémoire
@@ -216,14 +240,4 @@ void deadUnit(Unit* unit){
 	// du coup on va convertir cette unité en pointeur sur NULL pour dire qu'elle pointera plus sur une unité
 	// donc la case du tableau va afficher du vide
 	// car dans board.c un pointeur sur NULL de type Unit affiche la case vide (lignes 16-21)
-}
-
-int main(){
-
-	_world = (World*)malloc(sizeof(World));
-	printf("move with WASD and press enter ...\n\n if you want to attack, press spacebar and enter");
-	
-	printf("Votre choix : %s\n", directionInput());
-
-	displayBoard(world);
 }

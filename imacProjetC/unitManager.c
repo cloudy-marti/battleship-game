@@ -3,6 +3,12 @@
 #include <string.h>
 #include "structures.h"
 
+Unit* initializeUnit(char player, char type);
+int placeUnitInput(char axis, int size);
+void emptyBuffer();
+void placeUnit(Unit* unit);
+void placeAllUnit();
+
 // on playerManager :
 // unitMove
 // unitAttack
@@ -24,7 +30,6 @@
 		scanf("%d", posX);
 		emptyBuffer();
 	} else return posX;
-
 }
 
 int placeUnitInputY(){
@@ -39,7 +44,6 @@ int placeUnitInputY(){
 		scanf("%d", posY);
 		emptyBuffer();
 	} else return posY;
-
 }*/
 
 Unit* initializeUnit(char player, char type){
@@ -57,29 +61,30 @@ Unit* initializeUnit(char player, char type){
 	return unit;
 }
 
-int placeUnitInput(char axis, int size){
+int placeUnitInput(char axis, int size){ // playerManager svp
 	int newPosition;
 
 	printf("choose your %c position between 0 and %d\n", axis, size-1);
-	scanf("%d", newPosition);
+	scanf("%d", &newPosition);
 	emptyBuffer();
 
 	while(newPosition < 0 || newPosition >= size){
 		printf("try again\n");
-		scanf("%d", newPosition);
+		scanf("%d", &newPosition);
 		emptyBuffer();
 	}
 
 	return newPosition;
 }
 
-void emptyBuffer(){
+void emptyBuffer(){ // playerManager
   int unitBuffer;
   while((unitBuffer=getchar()) != EOF && unitBuffer != '\n');
   // fonction qui va nous permettre de vider le buffer qui va être rempli par un joueur pas doué
   // qui va écrire n'importe quoi (pas des int) dans les fonctions ci-dessus
 
   // EOF est un caractère qui désigne la fin d'un fichier
+  // !! demander ce que c'était exactement le buffer 
 }
 
 void placeUnit(Unit* unit){
@@ -90,14 +95,25 @@ void placeUnit(Unit* unit){
 
 void placeAllUnit(){
 
-	int i;
-	int taille = 6;
+	int i, j;
 
-	char unitType[taille] = {SERF, SERF, WARRIOR, SERF, SERF, WARRIOR};
-	char* unitTypeName[taille] = {"serf", "serf", "warrior", "serf", "serf", "warrior"}
+	// le compilateur me crache dessus si j'utilise int taille = 6;
+	// pareil si je met const int taille
+	// pour mettre unitType[taille] au lieu de unitType[6]
+	// avec unitType[taille] il me dit que c'est un élément variable
+	// avec un #define je pense que ça passerait
+	
+	char unitType[6] = {SERF, SERF, WARRIOR, SERF, SERF, WARRIOR};
+	char* unitTypeName[6] = {"serf", "serf", "warrior", "serf", "serf", "warrior"};
 
-	printf("the BLUE team begin\n");
-	for(i = 0; i < taille; i++){
+	char unitPlayer[2] = {BLUE, RED};
+	char* unitPlayerName[2] = {"blue", "red"};
+
+	// pourquoi char puis char* ?
+	// parce que le premier on va chercher directement le #define et le deuxième on désigne des chaînes de caractères ?
+
+/*	printf("the BLUE team begin\n");
+	for(i = 0; i < taille; i++){ // c'est pas plutôt taille / 2 ? 
 		Unit* unit = initializeUnit(BLUE, unitType[i]);
 		printf("Place your %s ..\n", unitTypeName[i]);
 		placeUnit(unit);
@@ -113,5 +129,18 @@ void placeAllUnit(){
 		printf("Place your %s ..\n", unitTypeName[i]);
 		placeUnit(unit);
 		_world->red = unit;
+	}
+	*/
+
+	for(i = 0; i < 2; i++){
+		printf("the %s team", unitPlayerName[i]);
+
+		for(j = 0; j < 6; j++){ // c'est pas plutôt taille / 2 ?
+
+			Unit* unit = initializeUnit(unitPlayer[i], unitType[j]);
+			printf("Place your %s ..\n", unitTypeName[j]);
+			placeUnit(unit);
+			_world->blue = unit;
+		}
 	}
 }
