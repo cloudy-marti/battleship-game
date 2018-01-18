@@ -4,7 +4,6 @@
 #include "structures.h"
 
 /*
-
 void displayBoard(p_World world);
 
 char* directionInput();
@@ -24,9 +23,14 @@ void beginGame(){
 	// le moment de dire qu'il faut placer les unités
 }
 
+/*char* onPlayerTurnUnitTurnInput(){
+	// le joueur peut choisir l'unité qu'il va bouger ensuite
+	// amélioration
+}*/
+
 void onPlayerTurnUnitTurn(){
 	// pendant que le joueur joue, dire à quelle unité c'est le tour
-	// quoique c'est geré dans unitMove je crois
+	
 }
 
 void nextPlayer(){
@@ -39,8 +43,6 @@ void nextPlayer(){
 	// unitList est un pointeur sur Unit
 	// ^ ma logique...
 }
-
-//?¿ ou c'est exit game dans game.c ?
 
 char endGameInput(){
 
@@ -55,6 +57,6 @@ void endGame(){
 	char endGame = endGameInput();
 
 	if(endGame == 'q'/* || toutes les unités d'une équipe pointent vers NULL car elles ont été toutes tuées*/){
-		exit(-1); // shit ça sert à rien TT
+		exit(-1); // ça sert à rien TT
 	} else return;
 }

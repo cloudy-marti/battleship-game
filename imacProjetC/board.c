@@ -3,6 +3,7 @@
 #include "structures.h"
 
 void displayBoard(p_World world);
+void displayMessages();
 
 void displayBoard(p_World world){ // world->board[1][1] j'accède à la première case du board
 
@@ -30,12 +31,11 @@ void displayBoard(p_World world){ // world->board[1][1] j'accède à la premièr
 	printf("-\n");
 }
 
-void displayPresenter(){
-	printf("choose your direction with WASD\n");
-	printf("Press q to quit\n");
+void gameInstructions(){
+	printf("kill your enemies\nchoose your direction with WASD\nPress q to quit\n");
 }
 
-int main(){
+/*int main(){
 
 	p_World world = (World*)malloc(sizeof(World));
 
@@ -43,3 +43,4 @@ int main(){
 	displayPresenter();
 	endGameInput();
 }
+*/
