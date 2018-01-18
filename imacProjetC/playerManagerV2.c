@@ -39,7 +39,7 @@ char* directionInput(){
         playerInput[2] = '\0';
     }
 
-    free(playerInput);
+    free(playerInput); // il ne faudrait pas plutot le mettre dans la fonction qui va l'appeler ?
 
     return playerInput;
 }

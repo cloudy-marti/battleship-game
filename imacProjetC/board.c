@@ -30,9 +30,16 @@ void displayBoard(p_World world){ // world->board[1][1] j'accède à la premièr
 	printf("-\n");
 }
 
+void displayPresenter(){
+	printf("choose your direction with WASD\n");
+	printf("Press q to quit\n");
+}
+
 int main(){
 
 	p_World world = (World*)malloc(sizeof(World));
 
 	displayBoard(world);
+	displayPresenter();
+	endGameInput();
 }
