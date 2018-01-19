@@ -1,9 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "structures.h"
+#include "headers/structures.h"
 
 void displayBoard(p_World world);
-void displayMessages();
+void gameInstructions();
 
 void displayBoard(p_World world){ // world->board[1][1] j'accède à la première case du board
 

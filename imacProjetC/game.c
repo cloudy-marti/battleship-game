@@ -1,6 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "structures.h"
+#include "headers/structures.h"
+#include "headers/board.h"
+#include "headers/playerManagerV2.h"
+#include "headers/turnManager.h"
+#include "headers/turnManager.h"
+
 
 int main(){
 
@@ -14,8 +19,9 @@ int main(){
         
     }
     
-    int createUnit(char type, uList* unit){
+    int createUnit(char type, unitList* unit){
         
     }
+    
     return 0;
 }

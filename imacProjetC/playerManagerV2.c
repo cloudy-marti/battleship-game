@@ -1,11 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "structures.h"
+#include "headers/structures.h"
 
 char* directionInput();
 int checkInput(char* input);
-void unitMove(Unit* unit);
+void unitMove(Unit* unit, char* direction);
 void unitAttack(Unit* unit);
 void deadUnit(Unit* unit);
 
@@ -19,10 +19,20 @@ void deadUnit(Unit* unit);
 	displayBoard(_world);
 }
 */
-char* directionInput(){
 
-    const int taille = 3;
-	char* playerInput = (char*)malloc(sizeof(char)*taille); // = malloc(3)
+char* initializeDirectionInput(){
+
+	const int taille = 3;
+	return (char*)malloc(sizeof(char)*taille); // = malloc(3)
+
+}
+
+void freeDirectionInput(char* directionInput){
+	free(directionInput);
+}
+
+char* directionInput(char* playerInput){
+
 	playerInput = "  \0"; // = {' ', ' ', '\0'};
 
 	// malloc sert à initialiser un pointeur
@@ -39,7 +49,7 @@ char* directionInput(){
         playerInput[2] = '\0';
     }
 
-    free(playerInput); // il ne faudrait pas plutot le mettre dans la fonction qui va l'appeler ?
+//    free(playerInput); // il ne faudrait pas plutot le mettre dans la fonction qui va l'appeler ?
 
     return playerInput;
 }
@@ -72,7 +82,7 @@ int checkInput(char* input){
     int i;
 
     for(i = 0; input[i] != '\0'; i++){
-        if(!(input[i] == 'w' // on avait mit = tout seul, c'est pas une comparaison du coup ?
+        if(!(input[i] == 'w'
             || input[i] == 'a' 
             || input[i] == 's' 
             || input[i] == 'd')){
@@ -108,13 +118,13 @@ int checkInput(char* input){
 	}
 }*/
 
-void unitMove(Unit* unit){ // unitManager
+void unitMove(Unit* unit, char* direction){ // unitManager
 
 	int i;
 	int translationX = 0;
 	int translationY = 0;
 
-	char* player = directionInput();
+	char* player = directionInput(direction);
 
 	for(i = 0; player[i] != '\0'; i++){
 		switch(player[i]){
@@ -147,6 +157,9 @@ void unitMove(Unit* unit){ // unitManager
 	// j'ai récupéré la case du tableau où le joueur veut aller
 	// je la teste ci-dessous, car le joueur va pouvoir se déplacer ssi la case est vide
 
+	// dans le cas où tmpUnit != NULL ->
+	// unit passée en paramètre est l'unité qui va attaquer, et tmpUnit est l'unitée qui va prendre
+
 	if(tmpUnit == NULL){
 
 		tmpUnit = unit;
@@ -170,11 +183,23 @@ void unitMove(Unit* unit){ // unitManager
 		// // c'est cool mais ça a pu s'améliorer
 		// // tout simplement parce qu'on avait pas besoin de sauvegarder la valeur de unit 
 	}
+	// on a enregistré la position du personnage et l'endroit où il veut attaquer	
+	else if(unit->player == tmpUnit->player){
+		return;
+	}
+	// Ici on dit que si l'unité attaquée est de la même couleur (donc même équipe), on sort de la fonction attackUnit
+	else if(unit->type == WARRIOR || tmpUnit->type == SERF){
+		deadUnit(tmpUnit);
+	}
+	else deadUnit(unit);
+	// si je suis warrior OU mon enemi est un serf, l'enemi va mourrir
+	// dans l'autre cas (serf vs warrior), je part de la fonction unitAttack
+	// car le joueur a tenté d'attaquer une unité plus forte, donc a échoué
 
 	return;
 }
 
-void unitAttack(Unit* unit){ // unitManager ? 
+/*void unitAttack(Unit* unit){ // unitManager ? 
 
 	if(_world == NULL) return;
 		// Comme il s'agit d'une fonction void, ce return va forcer la sortie de cette fonction
@@ -227,7 +252,7 @@ void unitAttack(Unit* unit){ // unitManager ?
 	// si je suis warrior OU mon enemi est un serf, l'enemi va mourrir
 	// dans l'autre cas (serf vs warrior), je part de la fonction unitAttack
 	// car le joueur a tenté d'attaquer une unité plus forte, donc a échoué
-}
+}*/
 
 void deadUnit(Unit* unit){ // unitManager
 

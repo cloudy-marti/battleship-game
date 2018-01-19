@@ -1,3 +1,6 @@
+#ifndef UNITMANAGER__H
+#define UNITMANAGER__H
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -8,3 +11,5 @@ int placeUnitInput(char axis, int size);
 void emptyBuffer();
 void placeUnit(Unit* unit);
 void placeAllUnit();
+
+#endif

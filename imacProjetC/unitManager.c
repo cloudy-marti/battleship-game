@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "structures.h"
+#include "headers/structures.h"
 
 Unit* initializeUnit(char player, char type);
 int placeUnitInput(char axis, int size);
@@ -50,6 +50,11 @@ Unit* initializeUnit(char player, char type){
 	Unit* unit = (Unit*)malloc(sizeof(Unit));
 	// il y a toujours une étoile de plus dans le cast que dans le paramètre de sizeof
 	// exemple : (Unit**)malloc(sizeof(Unit*))
+	unitList* list = (unitList*)malloc(sizeof(unitList)); // ¿?¿?¿?
+
+	if(list == NULL || unit == NULL){
+		exit(EXIT_FAILURE);
+	}
 
 	unit->player = player;
 	unit->type = type;
@@ -117,7 +122,7 @@ void placeAllUnit(){
 		Unit* unit = initializeUnit(BLUE, unitType[i]);
 		printf("Place your %s ..\n", unitTypeName[i]);
 		placeUnit(unit);
-		_world->blue = unit;
+		_world->blueList = unit;
 
 		// faire une fonction pour factoriser le code en double
 		// factoriser : faire une seule fonction pour les répétitions de fonctions
@@ -128,9 +133,15 @@ void placeAllUnit(){
 		Unit* unit = initializeUnit(RED, unitType[i]);
 		printf("Place your %s ..\n", unitTypeName[i]);
 		placeUnit(unit);
-		_world->red = unit;
+		_world->redList = unit;
 	}
 	*/
+}
+
+void chooseUnit(char player, char type){
+
+	Unit->player = player;
+	Unit->type = type;
 
 	for(i = 0; i < 2; i++){
 		printf("the %s team", unitPlayerName[i]);
@@ -140,7 +151,8 @@ void placeAllUnit(){
 			Unit* unit = initializeUnit(unitPlayer[i], unitType[j]);
 			printf("Place your %s ..\n", unitTypeName[j]);
 			placeUnit(unit);
-			_world->blue = unit;
+			_world->board = unit;// ...
+
 		}
 	}
 }

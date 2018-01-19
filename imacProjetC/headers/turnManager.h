@@ -1,3 +1,6 @@
+#ifndef TURNMANAGER__H
+#define TURNMANAGER__H
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -31,3 +34,5 @@ void nextPlayer(){
 
 void endOfGame(){ //?¿ ou c'est exit game dans game.c ?
 }
+
+#endif

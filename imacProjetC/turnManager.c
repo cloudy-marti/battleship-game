@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "structures.h"
+#include "headers/structures.h"
 
 /*
 void displayBoard(p_World world);
@@ -41,6 +41,7 @@ void nextPlayer(){
 	// comment on dit qu'une fonction a été réalisée ? (avec ou sans code d'erreur)
 	// lorsque la boucle a été terminée (3 pour trois unités par equipe), on change de unitList
 	// unitList est un pointeur sur Unit
+	// faut refaire les liste chaînées
 	// ^ ma logique...
 }
 
@@ -57,6 +58,10 @@ void endGame(){
 	char endGame = endGameInput();
 
 	if(endGame == 'q'/* || toutes les unités d'une équipe pointent vers NULL car elles ont été toutes tuées*/){
+	// unitList -> de type pointeur sur Unit (Unit*)
+	// redList et blueList
+	// si redList ou blueList == NULL est-ce que ça veut dire qu'il n'y a plus de pointeur sur Unit
+	// donc la liste chaînée est vide ?
 		exit(-1); // ça sert à rien TT
 	} else return;
 }
