@@ -1,6 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "headers/structures.h"
+#include "headers/board.h"
+#include "headers/playerManagerV2.h"
+#include "headers/unitManager.h"
+#include "headers/turnManager.h"
 
 void displayBoard(p_World world);
 void gameInstructions();
@@ -35,12 +39,10 @@ void gameInstructions(){
 	printf("kill your enemies\nchoose your direction with WASD\nPress q to quit\n");
 }
 
-/*int main(){
+int main(){
 
 	p_World world = (World*)malloc(sizeof(World));
 
 	displayBoard(world);
-	displayPresenter();
-	endGameInput();
+	gameInstructions();
 }
-*/

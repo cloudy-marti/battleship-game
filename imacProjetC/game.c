@@ -6,22 +6,13 @@
 #include "headers/turnManager.h"
 #include "headers/turnManager.h"
 
-
 int main(){
 
 	// Init Game
 	// Update Game (float deltaTime)
 	// Exit Game
-	
-    World boardgame;
     
-    void initialiseWorld(World* world){
-        
-    }
-    
-    int createUnit(char type, unitList* unit){
-        
-    }
+    initializeGame();    
     
     return 0;
 }

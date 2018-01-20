@@ -2,6 +2,10 @@
 #include <stdlib.h>
 #include <string.h>
 #include "headers/structures.h"
+#include "headers/board.h"
+#include "headers/playerManagerV2.h"
+#include "headers/turnManager.h"
+#include "headers/turnManager.h"
 
 /*
 void displayBoard(p_World world);
@@ -19,8 +23,15 @@ void placeUnit(Unit* unit);
 void placeAllUnit();
 */
 
-void beginGame(){
-	// le moment de dire qu'il faut placer les unités
+void initializeGame(){
+	// Préparation du terrain : création et initialization du board
+	// Énonciation des règles
+	// Préparation des pions
+
+	_world = (World*)malloc(sizeof(World));
+
+	displayBoard(_world);
+	placeAllUnit();
 }
 
 /*char* onPlayerTurnUnitTurnInput(){
@@ -45,14 +56,6 @@ void nextPlayer(){
 	// ^ ma logique...
 }
 
-char endGameInput(){
-
-	char endGameInput = '\0';
-
-	scanf("%c", &endGameInput);
-    return endGameInput;
-}
-
 void endGame(){
 
 	char endGame = endGameInput();
@@ -61,7 +64,7 @@ void endGame(){
 	// unitList -> de type pointeur sur Unit (Unit*)
 	// redList et blueList
 	// si redList ou blueList == NULL est-ce que ça veut dire qu'il n'y a plus de pointeur sur Unit
-	// donc la liste chaînée est vide ?
+	// donc la liste chaînée est vide ?	
 		exit(-1); // ça sert à rien TT
 	} else return;
 }

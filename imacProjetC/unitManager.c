@@ -2,57 +2,17 @@
 #include <stdlib.h>
 #include <string.h>
 #include "headers/structures.h"
-
-Unit* initializeUnit(char player, char type);
-int placeUnitInput(char axis, int size);
-void emptyBuffer();
-void placeUnit(Unit* unit);
-void placeAllUnit();
-
-// on playerManager :
-// unitMove
-// unitAttack
-// deadUnit
-
-// schéma game /turnManager/playerManager/etc ...
-// est-ce que les fichiers qui composent le game peuvent appeler des fonctions entre eux ?
-// tant que game est appelé nulle part ?
-
-/*int placeUnitInputX(){
-	// scanf des valeurs choisies par le joueur pour placer ses unités au début
-	int posX;
-
-	printf("choose your X position between 0 and 11\n");
-	scanf("%d", posX);
-
-	if(posX < 0 || posX > 11){
-		printf("try again\n");
-		scanf("%d", posX);
-		emptyBuffer();
-	} else return posX;
-}
-
-int placeUnitInputY(){
-
-	int posY;
-
-	printf("choose your Y position between 0 and 17\n");
-	scanf("%d", posY);
-
-	if(posY < 0 || posY > 17){
-		printf("try again\n");
-		scanf("%d", posY);
-		emptyBuffer();
-	} else return posY;
-}*/
+#include "headers/board.h"
+#include "headers/playerManagerV2.h"
+#include "headers/turnManager.h"
+#include "headers/turnManager.h"
 
 Unit* initializeUnit(char player, char type){
 	Unit* unit = (Unit*)malloc(sizeof(Unit));
 	// il y a toujours une étoile de plus dans le cast que dans le paramètre de sizeof
 	// exemple : (Unit**)malloc(sizeof(Unit*))
-	unitList* list = (unitList*)malloc(sizeof(unitList)); // ¿?¿?¿?
 
-	if(list == NULL || unit == NULL){
+	if(unit == NULL){
 		exit(EXIT_FAILURE);
 	}
 
@@ -95,64 +55,46 @@ void emptyBuffer(){ // playerManager
 void placeUnit(Unit* unit){
 	// fonction qui va permettre au joueur de placer ses unités dans board
 	// au début du jeu ou à la demande de la reine (amélioration)
-	unit = _world->board[placeUnitInput('X', WIDTH)][placeUnitInput('Y', HEIGHT)];
+	_world->board[placeUnitInput('X', WIDTH)][placeUnitInput('Y', HEIGHT)] = unit;
 }
 
 void placeAllUnit(){
 
-	int i, j;
-
-	// le compilateur me crache dessus si j'utilise int taille = 6;
-	// pareil si je met const int taille
-	// pour mettre unitType[taille] au lieu de unitType[6]
-	// avec unitType[taille] il me dit que c'est un élément variable
-	// avec un #define je pense que ça passerait
-	
-	char unitType[6] = {SERF, SERF, WARRIOR, SERF, SERF, WARRIOR};
-	char* unitTypeName[6] = {"serf", "serf", "warrior", "serf", "serf", "warrior"};
-
-	char unitPlayer[2] = {BLUE, RED};
-	char* unitPlayerName[2] = {"blue", "red"};
-
-	// pourquoi char puis char* ?
-	// parce que le premier on va chercher directement le #define et le deuxième on désigne des chaînes de caractères ?
-
-/*	printf("the BLUE team begin\n");
-	for(i = 0; i < taille; i++){ // c'est pas plutôt taille / 2 ? 
-		Unit* unit = initializeUnit(BLUE, unitType[i]);
-		printf("Place your %s ..\n", unitTypeName[i]);
-		placeUnit(unit);
-		_world->blueList = unit;
-
-		// faire une fonction pour factoriser le code en double
-		// factoriser : faire une seule fonction pour les répétitions de fonctions
-	}
-
-	printf("the RED team after\n");
-	for(i = 0; i < taille; i++){
-		Unit* unit = initializeUnit(RED, unitType[i]);
-		printf("Place your %s ..\n", unitTypeName[i]);
-		placeUnit(unit);
-		_world->redList = unit;
-	}
-	*/
+	playerPlaceUnits(BLUE, "blue");
+	playerPlaceUnits(RED, "red");
 }
 
-void chooseUnit(char player, char type){
+void playerPlaceUnits(char player, char* playerName){
 
-	Unit->player = player;
-	Unit->type = type;
+	int i;
 
-	for(i = 0; i < 2; i++){
-		printf("the %s team", unitPlayerName[i]);
+	char unitType[3] = {SERF, SERF, WARRIOR};
+	char* unitTypeName[3] = {"serf", "serf", "warrior"};
 
-		for(j = 0; j < 6; j++){ // c'est pas plutôt taille / 2 ?
-
-			Unit* unit = initializeUnit(unitPlayer[i], unitType[j]);
-			printf("Place your %s ..\n", unitTypeName[j]);
-			placeUnit(unit);
-			_world->board = unit;// ...
-
-		}
+	printf("the %s team must place their unit\n", playerName);
+	for(i = 0; i < 3; i++){
+		chooseUnit(player, unitType[i], unitTypeName[i]);
+		//_world->blueList = unit;
 	}
+}
+
+void chooseUnit(char player, char type, char* typeName){
+
+	Unit* unit = initializeUnit(player, type);
+	printf("Place your %s ..\n", typeName);
+	placeUnit(unit);
+}
+
+Unit* addUnit(Unit* unit, Unit* newUnit){
+
+	if(unit == NULL){
+		return newUnit;
+		// si unit n'existe pas, newUnit est considéré le début de la liste
+		// ce même si newUnit == NULL, parce que l'utilisateur de la fonction addUnit est censé
+		// donner une newUnit non nulle
+	}
+
+	unit->next = newUnit;
+	return unit;
+	// je retourne le premier élément de la liste
 }

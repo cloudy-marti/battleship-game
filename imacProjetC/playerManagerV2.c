@@ -2,23 +2,10 @@
 #include <stdlib.h>
 #include <string.h>
 #include "headers/structures.h"
-
-char* directionInput();
-int checkInput(char* input);
-void unitMove(Unit* unit, char* direction);
-void unitAttack(Unit* unit);
-void deadUnit(Unit* unit);
-
-/*int main(){
-
-	_world = (World*)malloc(sizeof(World));
-	printf("move with WASD and press enter ...\n\n if you want to attack, press spacebar and enter");
-	
-	printf("Votre choix : %s\n", directionInput());
-
-	displayBoard(_world);
-}
-*/
+#include "headers/board.h"
+#include "headers/playerManagerV2.h"
+#include "headers/turnManager.h"
+#include "headers/turnManager.h"
 
 char* initializeDirectionInput(){
 
