@@ -24,12 +24,10 @@ void manageTurn(){
 		displayBoard();
 		printf("Red team turn!\n");
 		turnPlayer(_world->blueList, directionInput, "red team");
-		directionInput = "";
 
 		displayBoard();
 		printf("Blue team turn!\n");
 		turnPlayer(_world->redList, directionInput, "blue team");
-		directionInput = "";	
 	}
 }
 

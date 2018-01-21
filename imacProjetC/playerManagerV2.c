@@ -47,11 +47,12 @@ char* directionInput(char* playerInput){
 
 	//playerInput = "  \0"; // = {' ', ' ', '\0'};
 	//playerInput = "";
-    scanf("%s", playerInput);
+    scanf("%2s", playerInput);
     printf("Player has entered command \"%s\"\n", playerInput);
     while(checkInput(playerInput) == -1){
     	printf("Which is invalid you dummy !\n");
-        scanf("%s", playerInput);
+        scanf("%2s", playerInput);
+    	printf("Player has entered command \"%s\"\n", playerInput);
     }
 
 //    free(playerInput); // il ne faudrait pas plutot le mettre dans la fonction qui va l'appeler ?
