@@ -50,9 +50,9 @@ Unit* playerPlaceUnits(char player, char* playerName){
 	// premier maillon de ma list, même si elle est nulle
 
 	printf("the %s team must place their unit\n", playerName);
-	for(i = 0; i < 3; i++){
+	for(i = 0; i < 3; ++i){
 		Unit* newUnit = chooseUnit(player, unitType[i], unitTypeName[i]);
-		list = addUnit(list, newUnit);
+		list = addUnit(newUnit, list);
 	}
 
 	return list;
@@ -67,17 +67,17 @@ Unit* chooseUnit(char player, char type, char* typeName){
 	return unit;
 }
 
-Unit* addUnit(Unit* unit, Unit* newUnit){
+Unit* addUnit(Unit* newUnit, Unit* unit){
 
-	if(unit == NULL){
-		return newUnit;
+	if(newUnit == NULL){
+		return unit;
 		// si unit n'existe pas, newUnit est considéré le début de la liste
 		// ce même si newUnit == NULL, parce que l'utilisateur de la fonction addUnit est censé
 		// donner une newUnit non nulle
 	}
 
-	unit->next = newUnit;
-	return unit;
+	newUnit->next = unit;
+	return newUnit;
 	// je retourne le premier élément de la liste
 }
 
@@ -86,27 +86,42 @@ void unitMove(Unit* unit, char* direction){ // unitManager
 	int i;
 	int translationX = 0;
 	int translationY = 0;
-
+	char* firstDirection = "";
+	char* secondDirection = "";
+	int switcher = 1;
 	char* player = directionInput(direction);
 
 	for(i = 0; player[i] != '\0'; i++){
 		switch(player[i]){
 			case('w') :
 				--translationY;
+				firstDirection = switcher ? "North" : firstDirection;
+				secondDirection = switcher ? secondDirection : "North";
 				break;
 			case('s') :
 				++translationY;
+				firstDirection = switcher ? "South" : firstDirection;
+				secondDirection = switcher ? secondDirection : "South";
 				break;
 			case('a'):
 				--translationX;
+				firstDirection = switcher ? "West" : firstDirection;
+				secondDirection = switcher ? secondDirection : "West";
 				break;
 			case('d'):
 				++translationX;
+				firstDirection = switcher ? "East" : firstDirection;
+				secondDirection = switcher ? secondDirection : "East";
+				break;
 			default :
-				return;
+				firstDirection = switcher ? "Nowhere..." : firstDirection;
+				secondDirection = switcher ? secondDirection : "Nowhere...";
+				break;
 		}
+		switcher = !switcher; 
 	}
 
+	printf("And so, their unit moved %s%s...\n", firstDirection, secondDirection[0] == firstDirection[0] ? "" : secondDirection);
 	// Condition ternaire : (condition) ? code a executer si vrai, genre "si" : code a executer si faux, genre "else"
 	// on peut enlever le break du case D parce que dans default il n'y a pas d'instructions.
 	// le switch est comme une combinaison de for et de if. Le break sert à sortir du switch lorsque la condition a été faite
@@ -123,8 +138,8 @@ void unitMove(Unit* unit, char* direction){ // unitManager
 
 	if(tmpUnit == NULL){
 
-		tmpUnit = unit;
-		unit = NULL;
+		_world->board[unit->posX+translationX][unit->posY+translationY] = unit;
+		_world->board[unit->posX][unit->posY] = NULL;
 		// Alors, tmpUnit va prendre l'adresse pour Unit (dont la mémoire est allouée), ce qui va simuler le fait que Unit va se déplacer dans cette case du tableau
 		// unit va donc être NULL, sinon deux cases pointeraient sur le même Unit
 		// Le compilateur n'aurait rien dit, mais il y aurait une erreur de comportement : ce n'est pas ce qui est demandé
@@ -150,7 +165,8 @@ void unitMove(Unit* unit, char* direction){ // unitManager
 	}
 	// Ici on dit que si l'unité attaquée est de la même couleur (donc même équipe), on sort de la fonction attackUnit
 	else if(unit->type == WARRIOR || tmpUnit->type == SERF){
-		deadUnit(tmpUnit);
+		deadUnit(_world->board[unit->posX+translationX][unit->posY+translationY]);
+		
 	}
 	else deadUnit(unit);
 	// si je suis warrior OU mon enemi est un serf, l'enemi va mourrir

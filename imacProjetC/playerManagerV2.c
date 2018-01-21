@@ -47,11 +47,11 @@ char* directionInput(char* playerInput){
 
 	//playerInput = "  \0"; // = {' ', ' ', '\0'};
 	//playerInput = "";
-    scanf("%2s", playerInput);
+    scanf("%3s", playerInput);
     printf("Player has entered command \"%s\"\n", playerInput);
     while(checkInput(playerInput) == -1){
     	printf("Which is invalid you dummy !\n");
-        scanf("%2s", playerInput);
+        scanf("%3s", playerInput);
     	printf("Player has entered command \"%s\"\n", playerInput);
     }
 

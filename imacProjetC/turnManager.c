@@ -22,11 +22,11 @@ void manageTurn(){
 
 	while(1){
 		displayBoard();
-		printf("Red team turn!\n");
+		printf("Blue team turn!\n");
 		turnPlayer(_world->blueList, directionInput, "red team");
 
 		displayBoard();
-		printf("Blue team turn!\n");
+		printf("Red team turn!\n");
 		turnPlayer(_world->redList, directionInput, "blue team");
 	}
 }
@@ -37,6 +37,7 @@ int iterateUnitList(unitList list, char* directionInput){ // = (Unit* list)
 	// parcourir une liste chaînée
 	for(unitTurn = 0; list != NULL; list = list->next, unitTurn++){
 		if(list->isAlive == 1){
+			printf("Moving %s unit(%d:%d)", list->type == SERF ? "Serf" : "Warrior", list->posX, list->posY);
 			unitMove(list, directionInput);
 		}
 	}
