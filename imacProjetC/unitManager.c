@@ -136,9 +136,11 @@ void unitMove(Unit* unit, char* direction){ // unitManager
 	// dans le cas où tmpUnit != NULL ->
 	// unit passée en paramètre est l'unité qui va attaquer, et tmpUnit est l'unitée qui va prendre
 
-	if(tmpUnit == NULL){
-
+	if(tmpUnit == NULL || !tmpUnit->isAlive){
+		printf("Which they did successfully !\n");	
 		_world->board[unit->posX+translationX][unit->posY+translationY] = unit;
+		unit->posX += translationX;
+		unit->posY += translationY;
 		_world->board[unit->posX][unit->posY] = NULL;
 		// Alors, tmpUnit va prendre l'adresse pour Unit (dont la mémoire est allouée), ce qui va simuler le fait que Unit va se déplacer dans cette case du tableau
 		// unit va donc être NULL, sinon deux cases pointeraient sur le même Unit
@@ -161,14 +163,22 @@ void unitMove(Unit* unit, char* direction){ // unitManager
 	}
 	// on a enregistré la position du personnage et l'endroit où il veut attaquer	
 	else if(unit->player == tmpUnit->player){
+		printf("But since there was somebody of their team already here, they've returned to their original place...\n");
 		return;
 	}
 	// Ici on dit que si l'unité attaquée est de la même couleur (donc même équipe), on sort de la fonction attackUnit
 	else if(unit->type == WARRIOR || tmpUnit->type == SERF){
+		printf("They encountered an enemy ! And won the battle !\n");
 		deadUnit(_world->board[unit->posX+translationX][unit->posY+translationY]);
+		_world->board[unit->posX+translationX][unit->posY+translationY] = NULL;
 		
 	}
-	else deadUnit(unit);
+	else 
+	{
+		printf("They encountered an enemy ! And died miserably !\n");
+		deadUnit(_world->board[unit->posX][unit->posY]);
+		_world->board[unit->posX][unit->posY] = NULL;
+	}
 	// si je suis warrior OU mon enemi est un serf, l'enemi va mourrir
 	// dans l'autre cas (serf vs warrior), je part de la fonction unitAttack
 	// car le joueur a tenté d'attaquer une unité plus forte, donc a échoué
@@ -179,6 +189,8 @@ void unitMove(Unit* unit, char* direction){ // unitManager
 void deadUnit(Unit* unit){ // unitManager
 
 	unit->isAlive = 0;
+	unit->posX = -1;
+	unit->posY = -1;
 	// du coup on va donner comme condition qu'une unité morte aura pour valeur dans isAlive 0
 	// donc la case du tableau va afficher du vide
 	// car dans board.c un pointeur sur NULL de type Unit affiche la case vide

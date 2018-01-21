@@ -34,15 +34,17 @@ void manageTurn(){
 int iterateUnitList(unitList list, char* directionInput){ // = (Unit* list)
 
 	int unitTurn;
+	int aliveUnit = 0;
 	// parcourir une liste chaînée
 	for(unitTurn = 0; list != NULL; list = list->next, unitTurn++){
 		if(list->isAlive == 1){
 			printf("Moving %s unit(%d:%d)", list->type == SERF ? "Serf" : "Warrior", list->posX, list->posY);
 			unitMove(list, directionInput);
+			++aliveUnit;
 		}
 	}
 	// if(list == NULL), on ne rentre pas dans la boucle et la fonction fait un return direct
-	return unitTurn;
+	return aliveUnit;
 }
 
 void turnPlayer(unitList list, char* directionInput, char* playerEnemyName){
