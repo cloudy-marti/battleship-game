@@ -17,6 +17,7 @@
 
 typedef struct unit {
     int posX, posY; // x and y = coordinates in the game
+    int isAlive // if(isAlive == 0), mon unité est morte || if(isAlive == 1), mon unité est vivante
     char player; // red or blue    
     char type; // serf or warrior
     struct unit* next; // next unit on list    

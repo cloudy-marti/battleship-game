@@ -11,17 +11,6 @@ char* initializeDirectionInput(){
 
 	const int taille = 3;
 	return (char*)malloc(sizeof(char)*taille); // = malloc(3)
-
-}
-
-void freeDirectionInput(char* directionInput){
-	free(directionInput);
-}
-
-char* directionInput(char* playerInput){
-
-	playerInput = "  \0"; // = {' ', ' ', '\0'};
-
 	// malloc sert à initialiser un pointeur
 
 	// on lui dit à malloc de nous donner autand de mémoire qu'ont besoin 3 char (donc, 1 octet * 3)
@@ -29,6 +18,11 @@ char* directionInput(char* playerInput){
 	// malloc va renvoyer un void pointeur. Du coup, il va falloir faire un "cast" pour changer le void au type recherché (forcément un pointeur)
 	// dans ce cas le cast est le (*char) qu'on a rajouté devant malloc
 	// parce qu'on fait une égalité entre char* player et le malloc qui doit être donc un char* aussi
+}
+
+char* directionInput(char* playerInput){
+
+	playerInput = "  \0"; // = {' ', ' ', '\0'};
 
     while(checkInput(playerInput) == -1){
     	printf("try again\n");
@@ -41,35 +35,14 @@ char* directionInput(char* playerInput){
     return playerInput;
 }
 
-/*int attackInput(){
-
-	const int taille = 2;
-	char* playerAttackInput = (char*)malloc(sizeof(char)*taille);
-
-	scanf("%s", playerAttackInput);
-	player[1] = '\0';
-
-	return -!(*playerAttackInput == " "); // true = 0 || false = -1
-
-	// Déréférencer un pointeur veut dire aller là où le pointeur pointe, à l'occurence la valeur pointée
-	
-	// L'opérateur == va forcément retourner une valeur booléenne (0 ou 1).
-	// Dans ma logique, 0 est le code de succès et -1 est le code d'erreur.
-	// Or, ==  de base va retourner 0 lorsque l'égalité n'est pas vraie, et 1 lorsqu'elle est vraie.
-	// Du coup, avec !( machin-truc ), on inverse la condition, car ! est un opérateur d'inversion, aussi appelée négation logique.
-	// On ajoute - devant, pour avoir -1 au lieu de 1.
-	// Donc, lorsque *player est un espace, on return 0.
-	// Si *player n'est pas un espace, on return -1.
-
-	free(playerAttackInput); // je crois
-}*/
-
 int checkInput(char* input){
 
     int i;
 
     for(i = 0; input[i] != '\0'; i++){
-        if(!(input[i] == 'w'
+        if(input[i] == 'q'){
+        	quitGame(input);
+        }else if(!(input[i] == 'w'
             || input[i] == 'a' 
             || input[i] == 's' 
             || input[i] == 'd')){
@@ -95,15 +68,6 @@ int checkInput(char* input){
 	
     return 0; // si ya pas de cas d'erreurs, je retourne 0
 }
-
-/*void manageInputs(Unit* unit){
-	
-	if(attackInput() == 0){
-		unitAttack(unit);
-	}else{
-		unitMove(unit);
-	}
-}*/
 
 void unitMove(Unit* unit, char* direction){ // unitManager
 
@@ -186,70 +150,39 @@ void unitMove(Unit* unit, char* direction){ // unitManager
 	return;
 }
 
-/*void unitAttack(Unit* unit){ // unitManager ? 
-
-	if(_world == NULL) return;
-		// Comme il s'agit d'une fonction void, ce return va forcer la sortie de cette fonction
-		// si _world est NULL pour une quelconque raison.
-		// Ceci va éviter les SEGMENTATION FAULT
-		// on a donc exclu le cas où on n'a pas de _world
-		// c'est la première instruction de la fonction, parce que, en cas de manque de _world, ça évitera de créer toutes les variables et instructions du dessous
-		// =optimisation wesh
-
-	int i;
-
-	int attackX = 0;
-	int attackY = 0;
-
-	int posX = unit->posX;
-	int posY = unit->posY;
-
-	char type = unit->type;
-
-	char* player = directionInput();
-
-	for(i = 0; player[i] != '\0'; i++){
-		switch(player[i]){
-			case('w') :
-				--attackY;
-				break;
-			case('s') :
-				++attackY;
-				break;
-			case('a'):
-				--attackX;
-				break;
-			case('d'):
-				++attackX;
-			default :
-				break;
-		}
-	}
-	// on a enregistré la position du personnage et l'endroit où il veut attaquer
-
-	Unit* enemyUnit = _world->board[posX+attackX][posY+attackY];
-	// unit passée en paramètre est l'unité qui va attaquer, et enemyUnit est l'unitée qui va prendre
-	char enemyType = enemyUnit->type;
-
-	if(unit->player == enemyUnit->player) return;
-	// Ici on dit que si l'unité attaquée est de la même couleur (donc même équipe), on sort de la fonction attackUnit
-
-	if(type == WARRIOR || enemyType == SERF) deadUnit(enemyUnit);
-	else deadUnit(unit);
-	// si je suis warrior OU mon enemi est un serf, l'enemi va mourrir
-	// dans l'autre cas (serf vs warrior), je part de la fonction unitAttack
-	// car le joueur a tenté d'attaquer une unité plus forte, donc a échoué
-}*/
-
 void deadUnit(Unit* unit){ // unitManager
 
-	free(unit);
-	// on a fait malloc sur l'unité quelque part, du coup on libère la mémoire
-
-	unit = NULL;
+	// free(unit);
+	unit->isAlive = 0;
+	// unit = NULL;
 	// On va appeler deadUnit(Unit* unit) lorsque la condition de succès d'attaque c'est confirmée
 	// Unit* unit passé en paramètre va être l'unité attaquée
 	// du coup on va convertir cette unité en pointeur sur NULL pour dire qu'elle pointera plus sur une unité
 	// donc la case du tableau va afficher du vide
 	// car dans board.c un pointeur sur NULL de type Unit affiche la case vide (lignes 16-21)
+}
+
+void quitGame(char* directionInput){
+	printf("you quit the game!\n");
+	free(directionInput);
+	directionInput = NULL;
+
+	freeList(_world->redList);
+	freeList(_world->blueList);
+
+	exit(0);
+}
+
+void freeList(unitList list){
+
+	unitList tmpList;
+
+	for(tmpList = NULL; list != NULL; ){
+		tmpList = list;
+		list = list->next;
+		free(tmpList);
+	}
+	// on a fait malloc pour allouer de la mémoire pour les unités
+	// de la liste quelque part, du coup on libère la mémoire
+
 }

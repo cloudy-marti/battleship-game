@@ -54,35 +54,45 @@ void emptyBuffer(){ // playerManager
 
 void placeUnit(Unit* unit){
 	// fonction qui va permettre au joueur de placer ses unités dans board
-	// au début du jeu ou à la demande de la reine (amélioration)
-	_world->board[placeUnitInput('X', WIDTH)][placeUnitInput('Y', HEIGHT)] = unit;
+	// au début du jeu
+	unit->posX = placeUnitInput('X', WIDTH);
+	unit->posY = placeUnitInput('Y', HEIGHT);
+	
+	_world->board[unit->posX][unit->posY] = unit;
 }
 
 void placeAllUnit(){
 
-	playerPlaceUnits(BLUE, "blue");
-	playerPlaceUnits(RED, "red");
+	_world->blueList = playerPlaceUnits(BLUE, "blue");
+	_world->redList = playerPlaceUnits(RED, "red");
 }
 
-void playerPlaceUnits(char player, char* playerName){
+Unit* playerPlaceUnits(char player, char* playerName){
 
 	int i;
 
 	char unitType[3] = {SERF, SERF, WARRIOR};
 	char* unitTypeName[3] = {"serf", "serf", "warrior"};
 
+	unitList list = NULL;
+	// premier maillon de ma list, même si elle est nulle
+
 	printf("the %s team must place their unit\n", playerName);
 	for(i = 0; i < 3; i++){
-		chooseUnit(player, unitType[i], unitTypeName[i]);
-		//_world->blueList = unit;
+		Unit* newUnit = chooseUnit(player, unitType[i], unitTypeName[i]);
+		list = addUnit(list, newUnit);
 	}
+
+	return list;
 }
 
-void chooseUnit(char player, char type, char* typeName){
+Unit* chooseUnit(char player, char type, char* typeName){
 
 	Unit* unit = initializeUnit(player, type);
 	printf("Place your %s ..\n", typeName);
 	placeUnit(unit);
+
+	return unit;
 }
 
 Unit* addUnit(Unit* unit, Unit* newUnit){

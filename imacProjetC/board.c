@@ -9,7 +9,7 @@
 void displayBoard(p_World world);
 void gameInstructions();
 
-void displayBoard(p_World world){ // world->board[1][1] j'accède à la première case du board
+void displayBoard(){ // world->board[1][1] j'accède à la première case du board
 
 	int i, j;
 
@@ -20,7 +20,7 @@ void displayBoard(p_World world){ // world->board[1][1] j'accède à la premièr
 		printf("-\n");
 
 		for(i = 0; i < WIDTH; i++){
-			if(world->board[i][j] == NULL){
+			if(_world->board[i][j] == NULL || _world->board[i][j]->isAlive == 0){
 				printf("|    ");
 			}else{
 				printf("| %c%c ", world->board[i][j]->player, world->board[i][j]->type);
@@ -41,8 +41,8 @@ void gameInstructions(){
 
 int main(){
 
-	p_World world = (World*)malloc(sizeof(World));
+	_world = (World*)malloc(sizeof(World));
 
-	displayBoard(world);
+	displayBoard(_world);
 	gameInstructions();
 }

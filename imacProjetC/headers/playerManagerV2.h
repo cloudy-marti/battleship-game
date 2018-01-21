@@ -8,8 +8,9 @@
 
 char* directionInput();
 int checkInput(char* input);
-void unitMove(Unit* unit);
+void unitMove(Unit* unit, char* direction);
 void unitAttack(Unit* unit);
 void deadUnit(Unit* unit);
+void quitGame();
 
 #endif
