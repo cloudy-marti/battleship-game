@@ -1,9 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include "headers/structures.h"
-#include "headers/board.h"
-#include "headers/playerManagerV2.h"
-#include "headers/turnManager.h"
 #include "headers/turnManager.h"
 
 int main(){
@@ -11,8 +5,9 @@ int main(){
 	// Init Game
 	// Update Game (float deltaTime)
 	// Exit Game
-    
-    initializeGame();    
+
+    initializeGame();
+    manageTurn(); 
     
     return 0;
 }

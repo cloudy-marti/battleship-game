@@ -1,14 +1,10 @@
 #ifndef TURNMANAGER__H
 #define TURNMANAGER__H
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include "structures.h"
+#include "typedefs.h"
 
 void initializeGame();
-void onPlayerTurnUnitTurn();
-void nextPlayer();
-void endGame();
+void manageTurn();
+int iterateUnitList(unitList list, char* directionInput);
+void turnPlayer(unitList list, char* directionInput, char* playerEnemyName);
 
 #endif

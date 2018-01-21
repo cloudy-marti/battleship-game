@@ -1,3 +1,4 @@
+#include <stdlib.h>
 #ifndef STRUCTURES__H
 #define STRUCTURES__H
 
@@ -15,28 +16,26 @@
 #define SERF 's' // unit type
 #define WARRIOR 'w'
 
-typedef struct unit {
+struct unit {
     int posX, posY; // x and y = coordinates in the game
-    int isAlive // if(isAlive == 0), mon unité est morte || if(isAlive == 1), mon unité est vivante
+    int isAlive; // if(isAlive == 0), mon unité est morte || if(isAlive == 1), mon unité est vivante
     char player; // red or blue    
     char type; // serf or warrior
     struct unit* next; // next unit on list    
-} Unit;
+};
 
-typedef Unit* unitList;
 // premier pointeur de ma liste chaînée
 
-typedef struct world {
-    Unit* board[WIDTH][HEIGHT]; // board of 12 x 18 squares
+struct world {
+    struct unit* board[WIDTH][HEIGHT]; // board of 12 x 18 squares
     int turn; // nb of turn
-    unitList redList;
-    unitList blueList; // units list for both players
-} World;
+    struct unit* redList;
+    struct unit* blueList; // units list for both players
+};
 
-typedef World* p_World;
 /* je donne un surnom à World* */
 
-World* _world = NULL;
+struct world* _world;
 //création d'une variable statique qui va pouvoir être rappelée dans toutes les fonctions créées
 
 #endif

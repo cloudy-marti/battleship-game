@@ -1,11 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
-#include "headers/structures.h"
-#include "headers/board.h"
+#include "headers/turnManager.h"
 #include "headers/playerManagerV2.h"
-#include "headers/turnManager.h"
-#include "headers/turnManager.h"
+#include "headers/unitManager.h"
+#include "headers/board.h"
 
 void initializeGame(){
 	// Préparation du terrain : création et initialization du board
@@ -22,11 +20,17 @@ void manageTurn(){
 
 	char* directionInput = initializeDirectionInput();
 
+	while(1){
+		displayBoard();
+		printf("Red team turn!\n");
+		turnPlayer(_world->blueList, directionInput, "red team");
+		directionInput = "";
 
-	void iterateList(_world->blueList, directionInput);
-	void iterateList(_world->redList, directionInput);
-	
-	freeDirectionInput(directionInput);
+		displayBoard();
+		printf("Blue team turn!\n");
+		turnPlayer(_world->redList, directionInput, "blue team");
+		directionInput = "";	
+	}
 }
 
 int iterateUnitList(unitList list, char* directionInput){ // = (Unit* list)
@@ -34,7 +38,9 @@ int iterateUnitList(unitList list, char* directionInput){ // = (Unit* list)
 	int unitTurn;
 	// parcourir une liste chaînée
 	for(unitTurn = 0; list != NULL; list = list->next, unitTurn++){
-		unitMove(list, directionInput);
+		if(list->isAlive == 1){
+			unitMove(list, directionInput);
+		}
 	}
 	// if(list == NULL), on ne rentre pas dans la boucle et la fonction fait un return direct
 	return unitTurn;
@@ -42,9 +48,9 @@ int iterateUnitList(unitList list, char* directionInput){ // = (Unit* list)
 
 void turnPlayer(unitList list, char* directionInput, char* playerEnemyName){
 
-	unitTurn = iterateUnitList(list, directionInput);
+	int unitTurn = iterateUnitList(list, directionInput);
 	if(unitTurn == 0){
 		printf("%s won the game !\n", playerEnemyName);
-		quitGame(directionInput, list);
+		quitGame(directionInput);
 	}
 }
