@@ -20,7 +20,7 @@ void manageTurn(){
 
 	char* directionInput = initializeDirectionInput();
 
-	while(1){ // while (1) le 1 veut dire quoi ?:o
+	while(1){ // 0 est faux, toute autre valeur est vraie. Ceci donne une boucle infinie
 		displayBoard();
 		printf("Blue team turn!\n");
 		turnPlayer(_world->blueList, directionInput, "red team");
@@ -33,10 +33,9 @@ void manageTurn(){
 
 int iterateUnitList(unitList list, char* directionInput){ // = (Unit* list)
 
-	int unitTurn;
 	int aliveUnit = 0;
 	// parcourir une liste chaînée
-	for(unitTurn = 0; list != NULL; list = list->next, unitTurn++){
+	for( ; list != NULL; list = list->next){
 		if(list->isAlive == 1){
 			printf("Moving %s unit(%d:%d)", list->type == SERF ? "Serf" : "Warrior", list->posX, list->posY);
 			unitMove(list, directionInput);

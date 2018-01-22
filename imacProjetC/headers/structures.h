@@ -26,7 +26,7 @@ struct unit {
 
 struct world {
     struct unit* board[WIDTH][HEIGHT]; // tableau de jeu de 12 x 18
-    int turn; // nb of turn
+    int turn;
     struct unit* redList;
     struct unit* blueList; // listes chaînées de chaque joueur
 };

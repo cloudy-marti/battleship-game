@@ -4,7 +4,7 @@
 #include "headers/playerManagerV2.h"
 #include "headers/unitManager.h"
 
-int placeUnitInput(char axis, int size){ // playerManager svp
+int placeUnitInput(char axis, int size){
 	int newPosition;
 
 	printf("choose your %c position between 0 and %d\n", axis, size-1);
@@ -20,7 +20,7 @@ int placeUnitInput(char axis, int size){ // playerManager svp
 	return newPosition;
 }
 
-void emptyBuffer(){ // playerManager
+void emptyBuffer(){
   int unitBuffer;
   while((unitBuffer=getchar()) != EOF && unitBuffer != '\n');
   // fonction qui va nous permettre de vider le buffer qui va être rempli par un joueur pas doué
@@ -43,8 +43,6 @@ char* initializeDirectionInput(){
 
 char* directionInput(char* playerInput){
 
-	//playerInput = "  \0"; // = {' ', ' ', '\0'};
-	//playerInput = "";
     scanf("%3s", playerInput); // %3s -> va demander une chaîne de caractères d'une taille de 3, sachant que le troisième caractère = \0
     printf("Player has entered command \"%s\"\n", playerInput);
     while(checkInput(playerInput) == -1){

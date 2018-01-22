@@ -87,16 +87,17 @@ void unitMove(Unit* unit, char* direction){ // unitManager
 	int translationY = 0;
 	char* firstDirection = "";
 	char* secondDirection = "";
-	int switcher = 1;
+	int switcher = 1; // la valeur switch entre 0 et 1
 	char* player = directionInput(direction);
 
 	for(i = 0; player[i] != '\0'; i++){
 		switch(player[i]){
 			case('w') :
-				--translationY;
+				--translationY; // wd
 				firstDirection = switcher ? "North" : firstDirection;
 				secondDirection = switcher ? secondDirection : "North";
 				break;
+				// = if(switcher == 1){ firstDirection == "North" }else{ firstDirection == firstDirection (donc on continue à parcourir le for)}
 			case('s') :
 				++translationY;
 				firstDirection = switcher ? "South" : firstDirection;
@@ -117,10 +118,13 @@ void unitMove(Unit* unit, char* direction){ // unitManager
 				secondDirection = switcher ? secondDirection : "Nowhere...";
 				break;
 		}
-		switcher = !switcher; 
+		switcher = !switcher;
+		// on considère switcher comme un booléen (entre 0 et 1)
+		// toggle : quelque soit la valeur de switcher, on va l'inverser (switcher = 0) :
+		// si elle est vrai on la rend fausse et vice-versa
 	}
 
-	printf("And so, their unit moved %s%s...\n", firstDirection, secondDirection[0] == firstDirection[0] ? "" : secondDirection);
+	printf("And so, their unit moved %s%s...\n", firstDirection, secondDirection);
 	// Condition ternaire : (condition) ? code a executer si vrai, genre "si" : code a executer si faux, genre "else"
 	// on peut enlever le break du case D parce que dans default il n'y a pas d'instructions.
 	// le switch est comme une combinaison de for et de if. Le break sert à sortir du switch lorsque la condition a été faite
@@ -139,10 +143,10 @@ void unitMove(Unit* unit, char* direction){ // unitManager
 
 	if(tmpUnit == NULL || !tmpUnit->isAlive){ // isAlive == -1
 		printf("Which they did successfully !\n");	
+		_world->board[unit->posX][unit->posY] = NULL;
 		_world->board[unit->posX+translationX][unit->posY+translationY] = unit;
 		unit->posX += translationX;
 		unit->posY += translationY;
-		_world->board[unit->posX][unit->posY] = NULL;
 		// Alors, tmpUnit va prendre l'adresse pour Unit (dont la mémoire est allouée), ce qui va simuler le fait que Unit va se déplacer dans cette case du tableau
 		// unit va donc être NULL, sinon deux cases pointeraient sur le même Unit
 		// Le compilateur n'aurait rien dit, mais il y aurait une erreur de comportement : ce n'est pas ce qui est demandé
@@ -150,7 +154,7 @@ void unitMove(Unit* unit, char* direction){ // unitManager
 
 		// Le tableau est constitué d'adresses sur unité
 		// Lorsqu'il n'y a pas d'unité, la case pointe sur NULL
-	}
+	}	
 	else if(unit->player == tmpUnit->player){
 		printf("But since there was already somebody of their team here, they've returned to their original place...\n");
 		return;
