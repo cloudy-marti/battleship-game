@@ -25,8 +25,7 @@ Unit* initializeUnit(char player, char type){
 }
 
 void placeUnit(Unit* unit){
-	// fonction qui va permettre au joueur de placer ses unités dans board
-	// au début du jeu
+	// fonction qui permet de ranger dans les cases posX et posY l'emplacement sur chaque axe rentré par le joueur
 	unit->posX = placeUnitInput('X', WIDTH);
 	unit->posY = placeUnitInput('Y', HEIGHT);
 
@@ -147,26 +146,15 @@ void unitMove(Unit* unit, char* direction){ // unitManager
 		// Le compilateur n'aurait rien dit, mais il y aurait une erreur de comportement : ce n'est pas ce qui est demandé
 		// erreur de comportement : lorsque le joueur demanderais à ce déplacer, la même Unit se "doublerait" dans la case demandée
 
-		// en fait le tableau est constitué d'adresses sur unité
+		// Le tableau est constitué d'adresses sur unité
 		// Lorsqu'il n'y a pas d'unité, la case pointe sur NULL
-
-		// une autre façon de faire :
-
-		// Unit* swapUnit = tmpUnit; // je sauvegarde la valeur de tmpUnit dans swapUnit
-		// tmpUnit = unit; // j'attribue à tmpUnit la valeur de unit
-		// unit = swapUnit;
-
-		// // SER : Sauvegarder - Ecraser - Restaurer
-		// // pour faire un swap il faut penser à ça
-		// // c'est cool mais ça a pu s'améliorer
-		// // tout simplement parce qu'on avait pas besoin de sauvegarder la valeur de unit 
 	}
 	// on a enregistré la position du personnage et l'endroit où il veut attaquer	
 	else if(unit->player == tmpUnit->player){
 		printf("But since there was somebody of their team already here, they've returned to their original place...\n");
 		return;
 	}
-	// Ici on dit que si l'unité attaquée est de la même couleur (donc même équipe), on sort de la fonction attackUnit
+	// Ici on a dit que si l'unité attaquée est de la même couleur (donc même équipe), on sort de la fonction attackUnit
 	else if(unit->type == WARRIOR || tmpUnit->type == SERF){
 		printf("They encountered an enemy ! And won the battle !\n");
 		deadUnit(_world->board[unit->posX+translationX][unit->posY+translationY]);
