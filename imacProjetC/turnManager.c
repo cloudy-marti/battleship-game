@@ -6,9 +6,9 @@
 #include "headers/board.h"
 
 void initializeGame(){
-	// Préparation du terrain : création et initialization du board
-	// Énonciation des règles
-	// Préparation des pions
+	// Préparation du terrain : création (le malloc) et initialization du board -> displayBoard
+	// Énonciation des règles -> displayBoard
+	// Préparation des pions -> placeAllUnit : initialization, création de la liste des pions pour chaque joueur, placement des pions
 
 	_world = (World*)malloc(sizeof(World));
 

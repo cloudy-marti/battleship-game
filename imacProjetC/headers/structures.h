@@ -17,23 +17,19 @@
 #define WARRIOR 'w'
 
 struct unit {
-    int posX, posY; // x and y = coordinates in the game
+    int posX, posY; // position de unit dans tableau
     int isAlive; // if(isAlive == 0), mon unité est morte || if(isAlive == 1), mon unité est vivante
-    char player; // red or blue    
-    char type; // serf or warrior
-    struct unit* next; // next unit on list    
+    char player; // le joueur
+    char type; // le type d'unité : serf ou warrior
+    struct unit* next; // pointeur sur l'unité suivante dans la liste chaînée
 };
-
-// premier pointeur de ma liste chaînée
 
 struct world {
-    struct unit* board[WIDTH][HEIGHT]; // board of 12 x 18 squares
+    struct unit* board[WIDTH][HEIGHT]; // tableau de jeu de 12 x 18
     int turn; // nb of turn
     struct unit* redList;
-    struct unit* blueList; // units list for both players
+    struct unit* blueList; // listes chaînées de chaque joueur
 };
-
-/* je donne un surnom à World* */
 
 struct world* _world;
 //création d'une variable statique qui va pouvoir être rappelée dans toutes les fonctions créées

@@ -47,15 +47,13 @@ char* directionInput(char* playerInput){
 
 	//playerInput = "  \0"; // = {' ', ' ', '\0'};
 	//playerInput = "";
-    scanf("%3s", playerInput);
+    scanf("%3s", playerInput); // %3s -> va demander une chaîne de caractères d'une taille de 3
     printf("Player has entered command \"%s\"\n", playerInput);
     while(checkInput(playerInput) == -1){
     	printf("Which is invalid you dummy !\n");
         scanf("%3s", playerInput);
     	printf("Player has entered command \"%s\"\n", playerInput);
     }
-
-//    free(playerInput); // il ne faudrait pas plutot le mettre dans la fonction qui va l'appeler ?
 
     return playerInput;
 }
@@ -76,16 +74,16 @@ int checkInput(char* input){
         }
     }
 
-    if(strcmp(input, "ws") == 0 // ça c'est égal à : !strcmp(*input, "ws")
+    if(strcmp(input, "ws") == 0
         || strcmp(input, "sw") == 0
         || strcmp(input, "ad") == 0 
         || strcmp(input, "da") == 0){
         return -1;
     }
 
-    // à la base c'était strcmp(*input, "da"), j'ai enlevé l'étoile
-    // parce que la fonction c'est "int strcmp(const char* s1, const char* s2)"
-    // et input est déjà de type char*
+    // la fonction est "int strcmp(const char* s1, const char* s2)"
+    // elle compare les deux chaînes de caractères passées en paramètre
+    // strcmp renvoit un code de succès (0) si les deux chaînes de caractère sont pareilles
 
 	if (input[0] == input[1]) {
 		return -1;

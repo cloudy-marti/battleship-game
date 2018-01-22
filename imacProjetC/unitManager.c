@@ -15,11 +15,11 @@ Unit* initializeUnit(char player, char type){
 
 	unit->player = player;
 	unit->type = type;
-	unit->isAlive = 1;
+	unit->isAlive = 1; // car l'unité créée est suposée vivante
+	unit->next = NULL;
 	// Assignation / affectation de valeur
 	// convention imposée : la case mémoire qui va recevoir la valeur est à gauche
 	// la valeur qui va être rangée dans la case mémoire est à droite
-	unit->next = NULL;
 
 	return unit;
 }
@@ -47,7 +47,7 @@ Unit* playerPlaceUnits(char player, char* playerName){
 	char* unitTypeName[3] = {"serf", "serf", "warrior"};
 
 	unitList list = NULL;
-	// premier maillon de ma list, même si elle est nulle
+	// premier maillon de ma liste, même si elle est nulle
 
 	printf("the %s team must place their unit\n", playerName);
 	for(i = 0; i < 3; ++i){
@@ -194,7 +194,7 @@ void deadUnit(Unit* unit){ // unitManager
 	// du coup on va donner comme condition qu'une unité morte aura pour valeur dans isAlive 0
 	// donc la case du tableau va afficher du vide
 	// car dans board.c un pointeur sur NULL de type Unit affiche la case vide
-	// OU lorsque unit->isAlive == 0 (lignes 16-21)
+	// OU lorsque unit->isAlive == 0 (board.c : lignes 16-21)
 }
 
 void quitGame(char* directionInput){
@@ -225,6 +225,6 @@ void freeList(unitList list){
 		list = list->next;
 		free(tmpList);
 	}
-	// on a fait malloc pour allouer de la mémoire pour les unités
-	// de la liste quelque part, du coup on libère la mémoire
+	// on a fait malloc pour allouer de la mémoire pour les unités de la liste quelque part
+	// du coup on libère la mémoire
 }
