@@ -25,9 +25,7 @@ void emptyBuffer(){ // playerManager
   while((unitBuffer=getchar()) != EOF && unitBuffer != '\n');
   // fonction qui va nous permettre de vider le buffer qui va être rempli par un joueur pas doué
   // qui va écrire n'importe quoi (pas des int) dans les fonctions ci-dessus
-
   // EOF est un caractère qui désigne la fin d'un fichier
-  // !! demander ce que c'était exactement le buffer 
 }
 
 char* initializeDirectionInput(){
@@ -37,7 +35,7 @@ char* initializeDirectionInput(){
 	// malloc sert à initialiser un pointeur
 
 	// on lui dit à malloc de nous donner autand de mémoire qu'ont besoin 3 char (donc, 1 octet * 3)
-	// sizeof est lui-même une fonction, voire plutôt un utilitaire, presque une fonction, qui va retourner une valeur qu'il aura calculé à partir des paramètres entrés
+	// sizeof est lui-même une fonction, voire plutôt un utilitaire, qui va retourner une valeur qu'il aura calculé à partir des paramètres entrés
 	// malloc va renvoyer un void pointeur. Du coup, il va falloir faire un "cast" pour changer le void au type recherché (forcément un pointeur)
 	// dans ce cas le cast est le (*char) qu'on a rajouté devant malloc
 	// parce qu'on fait une égalité entre char* player et le malloc qui doit être donc un char* aussi
@@ -47,7 +45,7 @@ char* directionInput(char* playerInput){
 
 	//playerInput = "  \0"; // = {' ', ' ', '\0'};
 	//playerInput = "";
-    scanf("%3s", playerInput); // %3s -> va demander une chaîne de caractères d'une taille de 3
+    scanf("%3s", playerInput); // %3s -> va demander une chaîne de caractères d'une taille de 3, sachant que le troisième caractère = \0
     printf("Player has entered command \"%s\"\n", playerInput);
     while(checkInput(playerInput) == -1){
     	printf("Which is invalid you dummy !\n");
@@ -70,7 +68,9 @@ int checkInput(char* input){
             || input[i] == 's' 
             || input[i] == 'd')){
             return -1;
-            // input[i] = 'qqe chose' sont mes conditions sans erreurs, si je les met entre !() j'inverse la condition, donc je pourrait envoyer mon code d'erreur -1 à partir de là
+            // avec !( condition ), on inverse la condition, car ! est un opérateur d'inversion, aussi appelé négation logique
+            // input[i] = 'qqe chose' sont mes conditions sans erreurs, si je les met entre !() j'inverse la condition
+            // donc je pourrait envoyer mon code d'erreur -1 à partir de là
         }
     }
 

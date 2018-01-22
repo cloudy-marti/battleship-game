@@ -130,12 +130,14 @@ void unitMove(Unit* unit, char* direction){ // unitManager
 	// car unit est mon pointeur sur mon Unit originale à la position posX/Y initiales
 
 	// j'ai récupéré la case du tableau où le joueur veut aller
-	// je la teste ci-dessous, car le joueur va pouvoir se déplacer ssi la case est vide
+	// je la teste ci-dessous, car le joueur va pouvoir se déplacer si la case est vide ou si l'unité qu'il y avait est morte
 
 	// dans le cas où tmpUnit != NULL ->
 	// unit passée en paramètre est l'unité qui va attaquer, et tmpUnit est l'unitée qui va prendre
 
-	if(tmpUnit == NULL || !tmpUnit->isAlive){
+	// on a enregistré la position du personnage et l'endroit où il veut attaquer	
+
+	if(tmpUnit == NULL || !tmpUnit->isAlive){ // isAlive == -1
 		printf("Which they did successfully !\n");	
 		_world->board[unit->posX+translationX][unit->posY+translationY] = unit;
 		unit->posX += translationX;
@@ -149,9 +151,8 @@ void unitMove(Unit* unit, char* direction){ // unitManager
 		// Le tableau est constitué d'adresses sur unité
 		// Lorsqu'il n'y a pas d'unité, la case pointe sur NULL
 	}
-	// on a enregistré la position du personnage et l'endroit où il veut attaquer	
 	else if(unit->player == tmpUnit->player){
-		printf("But since there was somebody of their team already here, they've returned to their original place...\n");
+		printf("But since there was already somebody of their team here, they've returned to their original place...\n");
 		return;
 	}
 	// Ici on a dit que si l'unité attaquée est de la même couleur (donc même équipe), on sort de la fonction attackUnit

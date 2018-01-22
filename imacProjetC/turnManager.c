@@ -20,7 +20,7 @@ void manageTurn(){
 
 	char* directionInput = initializeDirectionInput();
 
-	while(1){
+	while(1){ // while (1) le 1 veut dire quoi ?:o
 		displayBoard();
 		printf("Blue team turn!\n");
 		turnPlayer(_world->blueList, directionInput, "red team");

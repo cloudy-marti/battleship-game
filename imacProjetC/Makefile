@@ -1,37 +1,24 @@
+# création de l'exécutable 'game'
 
-./a.out : makeFileProject.o board.o 
-    gcc makeFileProject.o board.o
+Game : *.o
+		gcc game.o functions.o -o Game
 
-mainFileProject.o : mainFileProject.c board.c
-    gcc -c mainFileProject.o 
-    
-board.o : board.c
+game.o: game.c turnManager.c
+		gcc -c game.c -o game.o
 
-mon_executable: exemple.o main.o
-gcc -o mon_executable exemple.o main.o
-exemple.o: exemple.c
-gcc -o exemple.o -c exemple.c -Wall -O
-main.o: main.c exemple.h
-gcc -o main.o -c main.c -Wall -O
+board.o: board.c typedefs.h
+		gcc -c board.c -o board.o
 
-all: mon_executable
-mon_executable: exemple.o main.o
-gcc -o mon_executable exemple.o main.o
-exemple.o: exemple.c
-gcc -o exemple.o -c exemple.c -Wall -O
-main.o: main.c exemple.h
-gcc -o main.o -c main.c -Wall -O
+playerManagerV2.o: playerManagerV2.c unitManager.h
+		gcc -c playerManagerV2.c -o playerManagerV2.o
+
+unitManager.o: unitManager.c typedefs.h playerManagerV2.h
+		gcc -c unitManager.c -o unitManager.o
+
+turnManager.o: turnManager.c playerManagerV2.h unitManager.h board.h
+		gcc -c turnManager.c -o turnManager.o
+
+# suppression des fichiers temporaires
+
 clean:
-rm -f *.o core
-mrproper: clean
-rm -f mon_executable
-
-
-hello: hello.o main.o
-	gcc -o hello hello.o main.o
-
-hello.o: hello.c
-	gcc -o hello.o -c hello.c -W -Wall
-
-main.o: main.c hello.h
-	gcc -o main.o -c main.c -W -Wall
+		rm -rf *.o
