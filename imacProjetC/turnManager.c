@@ -12,7 +12,7 @@ void initializeGame(){
 
 	_world = (World*)malloc(sizeof(World));
 
-	displayBoard(_world);
+	displayBoard();
 	placeAllUnit();
 }
 
