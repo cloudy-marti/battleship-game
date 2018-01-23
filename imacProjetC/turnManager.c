@@ -31,18 +31,19 @@ void manageTurn(){
 	}
 }
 
-int iterateUnitList(unitList list, char* directionInput){ // = (Unit* list)
+int iterateUnitList(unitList list, char* directionInput){ // = (Unit* list, char* ...)
 
 	int aliveUnit = 0;
 	// parcourir une liste chaînée
 	for( ; list != NULL; list = list->next){
-		if(list->isAlive == 1){
+		if(list->isAlive == 1){ // list est un pointeur sur Unit
 			printf("Moving %s unit(%d:%d)", list->type == SERF ? "Serf" : "Warrior", list->posX, list->posY);
 			unitMove(list, directionInput);
 			++aliveUnit;
 		}
 	}
 	// if(list == NULL), on ne rentre pas dans la boucle et la fonction fait un return direct
+	// si le type de mon unité (list) est == SERF, donc %s va afficher "Serf", sinon, %s va afficher "Warrior"
 	return aliveUnit;
 }
 

@@ -130,27 +130,30 @@ void unitMove(Unit* unit, char* direction){ // unitManager
 	// le switch est comme une combinaison de for et de if. Le break sert à sortir du switch lorsque la condition a été faite
 
 	Unit* tmpUnit = _world->board[unit->posX+translationX][unit->posY+translationY];
-	// posX ou posY seuls ne sont pas déclarés ailleurs, donc j'ai changé par unit->posX/Y
-	// car unit est mon pointeur sur mon Unit originale à la position posX/Y initiales
+	// unit est mon pointeur sur mon Unit originale à la position posX/Y initiales
 
 	// j'ai récupéré la case du tableau où le joueur veut aller
-	// je la teste ci-dessous, car le joueur va pouvoir se déplacer si la case est vide ou si l'unité qu'il y avait est morte
+	// je la teste ci-dessous, car le joueur va pouvoir se déplacer que si la case est vide ou si l'unité qu'il y avait est morte
 
 	// dans le cas où tmpUnit != NULL ->
 	// unit passée en paramètre est l'unité qui va attaquer, et tmpUnit est l'unitée qui va prendre
 
-	// on a enregistré la position du personnage et l'endroit où il veut attaquer	
+	// on a enregistré la position du personnage et l'endroit où il veut attaquer
+	// on gère le résultat ci-dessous
 
 	if(tmpUnit == NULL || !tmpUnit->isAlive){ // isAlive == -1
 		printf("Which they did successfully !\n");	
 		_world->board[unit->posX][unit->posY] = NULL;
 		_world->board[unit->posX+translationX][unit->posY+translationY] = unit;
-		unit->posX += translationX;
+		unit->posX += translationX; // ceci équivaut à unit->posX = posX + translationX
 		unit->posY += translationY;
-		// Alors, tmpUnit va prendre l'adresse pour Unit (dont la mémoire est allouée), ce qui va simuler le fait que Unit va se déplacer dans cette case du tableau
-		// unit va donc être NULL, sinon deux cases pointeraient sur le même Unit
+		// on demande à la position initiale de unit dans le tableau de pointer sur NULL
 		// Le compilateur n'aurait rien dit, mais il y aurait une erreur de comportement : ce n'est pas ce qui est demandé
 		// erreur de comportement : lorsque le joueur demanderais à ce déplacer, la même Unit se "doublerait" dans la case demandée
+
+		// unit va être ensuite rangée dans une nouvelle case du tableau à partir de posX+translationX et posY+translationY
+		// cela va permettre d'afficher unit dans la case correspondante, or unit->posX/Y n'est pas encore changé
+		// donc on change posX/Y de unit juste après
 
 		// Le tableau est constitué d'adresses sur unité
 		// Lorsqu'il n'y a pas d'unité, la case pointe sur NULL
@@ -159,7 +162,7 @@ void unitMove(Unit* unit, char* direction){ // unitManager
 		printf("But since there was already somebody of their team here, they've returned to their original place...\n");
 		return;
 	}
-	// Ici on a dit que si l'unité attaquée est de la même couleur (donc même équipe), on sort de la fonction attackUnit
+	// Ci-dessus on a dit que si l'unité attaquée est de la même couleur (donc même équipe), on sort de la fonction attackUnit
 	else if(unit->type == WARRIOR || tmpUnit->type == SERF){
 		printf("They encountered an enemy ! And won the battle !\n");
 		deadUnit(_world->board[unit->posX+translationX][unit->posY+translationY]);
@@ -173,7 +176,7 @@ void unitMove(Unit* unit, char* direction){ // unitManager
 		_world->board[unit->posX][unit->posY] = NULL;
 	}
 	// si je suis warrior OU mon enemi est un serf, l'enemi va mourrir
-	// dans l'autre cas (serf vs warrior), je part de la fonction unitAttack
+	// dans l'autre cas (serf vs warrior), je meur
 	// car le joueur a tenté d'attaquer une unité plus forte, donc a échoué
 
 	return;
@@ -184,7 +187,7 @@ void deadUnit(Unit* unit){ // unitManager
 	unit->isAlive = 0;
 	unit->posX = -1;
 	unit->posY = -1;
-	// du coup on va donner comme condition qu'une unité morte aura pour valeur dans isAlive 0
+	// du coup on va donner comme condition qu'une unité morte aura pour valeur 0 pour la variable isAlive
 	// donc la case du tableau va afficher du vide
 	// car dans board.c un pointeur sur NULL de type Unit affiche la case vide
 	// OU lorsque unit->isAlive == 0 (board.c : lignes 16-21)
