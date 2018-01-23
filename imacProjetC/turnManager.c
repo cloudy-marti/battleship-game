@@ -12,6 +12,14 @@ void initializeGame(){
 
 	_world = (World*)malloc(sizeof(World));
 
+	int i, j;
+
+	for(j = 0; j < HEIGHT; j++){
+		for(i = 0; i < WIDTH; i++){
+			_world->board[i][j] = NULL;
+		}
+	}
+
 	displayBoard();
 	placeAllUnit();
 }
