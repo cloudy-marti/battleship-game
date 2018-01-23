@@ -26,8 +26,18 @@ Unit* initializeUnit(char player, char type){
 
 void placeUnit(Unit* unit){
 	// fonction qui permet de ranger dans les cases posX et posY l'emplacement sur chaque axe rentré par le joueur
-	unit->posX = placeUnitInput('X', WIDTH);
-	unit->posY = placeUnitInput('Y', HEIGHT);
+
+	int x = placeUnitInput('X', WIDTH);
+	int y = placeUnitInput('Y', HEIGHT);
+
+	while(_world->board[x][y] != NULL){
+		printf("there is already an unit here ! try again\n");
+		x = placeUnitInput('X', WIDTH);
+	    y = placeUnitInput('Y', HEIGHT);
+	}
+
+	unit->posX = x;
+	unit->posY = y;
 
 	_world->board[unit->posX][unit->posY] = unit;
 }
@@ -93,7 +103,7 @@ void unitMove(Unit* unit, char* direction){ // unitManager
 	for(i = 0; player[i] != '\0'; i++){
 		switch(player[i]){
 			case('w') :
-				--translationY; // wd
+				--translationY;
 				firstDirection = switcher ? "North" : firstDirection;
 				secondDirection = switcher ? secondDirection : "North";
 				break;
@@ -120,7 +130,7 @@ void unitMove(Unit* unit, char* direction){ // unitManager
 		}
 		switcher = !switcher;
 		// on considère switcher comme un booléen (entre 0 et 1)
-		// toggle : quelque soit la valeur de switcher, on va l'inverser (switcher = 0) :
+		// toggle : quelque soit la valeur de switcher, on va l'inverser (switcher = 0)
 		// si elle est vrai on la rend fausse et vice-versa
 	}
 
@@ -141,7 +151,11 @@ void unitMove(Unit* unit, char* direction){ // unitManager
 	// on a enregistré la position du personnage et l'endroit où il veut attaquer
 	// on gère le résultat ci-dessous
 
-	if(tmpUnit == NULL || !tmpUnit->isAlive){ // isAlive == -1
+	if(unit->posX+translationX > WIDTH-1 || unit->posX+translationX < 0 || unit->posY+translationY > HEIGHT-1 || unit->posY+translationY < 0){
+		printf("But they hit a wall so they returned to their original place...\n");
+		return;
+	}
+	else if(tmpUnit == NULL || !tmpUnit->isAlive){ // isAlive == -1
 		printf("Which they did successfully !\n");	
 		_world->board[unit->posX][unit->posY] = NULL;
 		_world->board[unit->posX+translationX][unit->posY+translationY] = unit;
@@ -167,7 +181,6 @@ void unitMove(Unit* unit, char* direction){ // unitManager
 		printf("They encountered an enemy ! And won the battle !\n");
 		deadUnit(_world->board[unit->posX+translationX][unit->posY+translationY]);
 		_world->board[unit->posX+translationX][unit->posY+translationY] = NULL;
-		
 	}
 	else 
 	{
@@ -176,9 +189,8 @@ void unitMove(Unit* unit, char* direction){ // unitManager
 		_world->board[unit->posX][unit->posY] = NULL;
 	}
 	// si je suis warrior OU mon enemi est un serf, l'enemi va mourrir
-	// dans l'autre cas (serf vs warrior), je meur
+	// dans l'autre cas (serf vs warrior), je meurs
 	// car le joueur a tenté d'attaquer une unité plus forte, donc a échoué
-
 	return;
 }
 
