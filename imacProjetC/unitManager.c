@@ -169,6 +169,9 @@ void unitMove(Unit* unit, char* direction){ // unitManager
 		// cela va permettre d'afficher unit dans la case correspondante, or unit->posX/Y n'est pas encore changé
 		// donc on change posX/Y de unit juste après
 
+		// la case _world->board[unit->posX+translationX][unit->posY+translationY] pointe désormais sur une unité
+		// qui a pour paramètres unit->posX+translationX et unit->posY+translationY 
+
 		// Le tableau est constitué d'adresses sur unité
 		// Lorsqu'il n'y a pas d'unité, la case pointe sur NULL
 	}	
